@@ -17,8 +17,8 @@ except ImportError:
     from httplib import HTTPConnection
     from urllib import urlencode
 
-from m2d.Module import Module
-from m2d.Transform import Transform
+from m2up.Module import Module
+from m2up.Transform import Transform
 
 # $...$ (or $$...$$)
 singlelinere = re.compile(r"\$(\$?)..*\$(\$?)")

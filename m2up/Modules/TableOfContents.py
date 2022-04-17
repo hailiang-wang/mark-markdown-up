@@ -9,8 +9,8 @@ from __future__ import unicode_literals
 
 import re
 
-from m2d.Module import Module
-from m2d.Transform import Transform
+from m2up.Module import Module
+from m2up.Transform import Transform
 
 tocre = re.compile(r"^!TOC(\s+[1-6])?\s*$")
 atxre = re.compile(r"^(#+)\s*(.+)$")

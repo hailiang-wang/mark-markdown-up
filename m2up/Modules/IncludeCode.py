@@ -11,7 +11,7 @@ import re
 
 from os import path
 
-from m2d.Modules.Include import Include
+from m2up.Modules.Include import Include
 
 
 class IncludeCode(Include):

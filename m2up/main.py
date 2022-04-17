@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
-import m2d
+import m2up
 
 import os
 import time
@@ -32,12 +32,12 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
     patterns = ["*.mdpp"]
 
     def process(self, event):
-        modules = m2d.modules.keys()
+        modules = m2up.modules.keys()
         mdpp = open(event.src_path, 'r', encoding='UTF-8')
 
         # Output file takes filename from input file but has .md extension
         md = open(os.path.splitext(event.src_path)[0]+'.md', 'w', encoding='UTF-8')
-        m2d.MarkdownPP(input=mdpp, output=md, modules=modules)
+        m2up.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         # Logs time and file changed (with colors!)
         print(time.strftime("%c") + ":",
@@ -71,7 +71,7 @@ def main():
                         'output file is specified, writes output to stdout.')
     parser.add_argument('-e', '--exclude', help='List of modules to '
                         'exclude, separated by commas. Available modules: '
-                        + ', '.join(m2d.modules.keys()))
+                        + ', '.join(m2up.modules.keys()))
     args = parser.parse_args()
 
     # If watch flag is on, watch dirs instead of processing individual file
@@ -101,7 +101,7 @@ def main():
         else:
             md = sys.stdout
 
-        modules = list(m2d.modules)
+        modules = list(m2up.modules)
 
         if args.exclude:
             for module in args.exclude.split(','):
@@ -110,7 +110,7 @@ def main():
                 else:
                     print('Cannot exclude ', module, ' - no such module')
 
-        m2d.MarkdownPP(input=mdpp, output=md, modules=modules)
+        m2up.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         mdpp.close()
         md.close()

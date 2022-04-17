@@ -10,8 +10,8 @@ if path.isfile('README.md'):
     shutil.copyfile('README.md', 'README')
 
 setup(
-    name='m2d',
-    description='Mark Markdown',
+    name='m2up',
+    description='Mark Markdown Up',
     version='1.0.0',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
@@ -29,10 +29,10 @@ setup(
         'Development Status :: 5 - Production/Stable',
     ],
     license='MIT License',
-    packages=['m2d', 'm2d/Modules'],
+    packages=['m2up', 'm2up/Modules'],
     entry_points={
         'console_scripts': [
-            'm2d = m2d.main:main'
+            'm2up = m2up.main:main'
         ],
     },
     install_requires=[

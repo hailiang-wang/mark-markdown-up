@@ -18,7 +18,7 @@ except ImportError:
     from urllib import urlopen
     from urlparse import urlparse
 
-from m2d.Modules.Include import Include
+from m2up.Modules.Include import Include
 
 
 class IncludeURL(Include):
