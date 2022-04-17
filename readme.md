@@ -1,6 +1,8 @@
 
-Mark Markdown
+Mark Markdown Up
 ==================================
+
+Stack up markdown files with `include` directives.
 
 Previous, Markdown Preprocessor (MarkdownPP).
 
@@ -17,9 +19,9 @@ that contains sections or features that would be laborious to generate or
 maintain by hand.
 
 Documents designed to be preprocessed by MarkdownPP should try to follow the
-convention of naming files with a .mdpp extension, so that MarkdownPP can
+convention of naming files with a .mmd extension, so that MarkdownPP can
 generate a document with the same name, but with the standard .md extension.
-As an example, this document in raw format is named "readme.mdpp", and the
+As an example, this document in raw format is named "readme.mmd", and the
 generated document from MarkdownPP is named "readme.md" so that GitHub can find
 and process that document when viewing the repository.
 
@@ -46,16 +48,16 @@ and process that document when viewing the repository.
 Currently, you'll need to download the source code from [GitHub][repo] or clone
 the repository, and the run the installation script manually.
 
-    pip install MarkdownPP
+    pip install m2up
 
-There are two components to the project: a Python module, `MarkdownPP`, and a
+There are two components to the project: a Python module, `m2up`, and a
 Python script that acts as a simple command line interface to the module,
-`markdown-pp`.
+`m2up`.
 
-Assuming you have a file named `foo.mdpp`, you can generate the preprocessed
+Assuming you have a file named `foo.mmd`(mmd is Mark Markdown for short), you can generate the preprocessed
 file `foo.md` by running the following command:
 
-    markdown-pp foo.mdpp -o foo.md
+    m2up foo.mmd -o foo.md
 
 If you do not specify an output file name, the results will be printed to
 stdout, enabling them to be piped to another command.
@@ -63,12 +65,12 @@ stdout, enabling them to be piped to another command.
 By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
-    markdown-pp foo.mdpp -o foo.md -e latexrender,youtubembed
+    m2up foo.mmd -o foo.md -e latexrender,youtubembed
 
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
-    markdown-pp --help
+    m2up --help
 
 <a name="modules"></a>
 
@@ -83,20 +85,20 @@ In order to facilitate large documentation projects, MarkdownPP has an Include
 module that will replace a line of the form `!INCLUDE "path/to/filename"` with
 the contents of that file, recursively including other files as needed.
 
-File `foo.mdpp`:
+File `foo.mmd`:
 
  Hello
 
-File `bar.mdpp`:
+File `bar.mmd`:
 
  World!
 
-File `index.mdpp`:
+File `index.mmd`:
 
- !INCLUDE "foo.mdpp"
- !INCLUDE "bar.mdpp"
+ !INCLUDE "foo.mmd"
+ !INCLUDE "bar.mmd"
 
-Compiling `index.mdpp` with the Include module will produce the following:
+Compiling `index.mmd` with the Include module will produce the following:
 
  Hello
  World!
@@ -104,18 +106,18 @@ Compiling `index.mdpp` with the Include module will produce the following:
 Furthermore, the Include module supports the shifting of headers in the
 file to be included. For example,
 
-File `foo.mdpp`:
+File `foo.mmd`:
 
     # Foo
     ## Bar
 
-File `index.mdpp`:
+File `index.mmd`:
 
     # Title
     ## Subtitle
-    !INCLUDE "foo.mdpp", 2
+    !INCLUDE "foo.mmd", 2
 
-Compiling `index.mdpp` with the Include module and using `2` as shift
+Compiling `index.mmd` with the Include module and using `2` as shift
 parameter will yield:
 
     # Title
@@ -137,20 +139,20 @@ means that is it possible to include local files that then require remote files,
 but impossible parse !INCLUDE statements found in remote files. This is prevent
 ambiguity as to where the file would be located.
 
-Remote file `http://your.domain/foo.mdpp`:
+Remote file `http://your.domain/foo.mmd`:
 
     Hello
 
-Remote file `http://your.domain/bar.mdpp`:
+Remote file `http://your.domain/bar.mmd`:
 
     Remote World!
 
-Local file `index.mdpp`:
+Local file `index.mmd`:
 
-    !INCLUDEURL "http://your.domain/foo.mdpp"
-    !INCLUDEURL "http://your.domain/bar.mdpp"
+    !INCLUDEURL "http://your.domain/foo.mmd"
+    !INCLUDEURL "http://your.domain/bar.mmd"
 
-Compiling `index.mdpp` with the IncludeURL module will produce the following:
+Compiling `index.mmd` with the IncludeURL module will produce the following:
 
     Hello
     Remote World!
@@ -171,14 +173,14 @@ Local code file `hello.py`:
     if __name__ == '__main__':
         main()
 
-Local file `index.mdpp`:
+Local file `index.mmd`:
 
     # My Code
 
     !INCLUDECODE "hello.py"
     Easy as that!
 
-Compiling `index.mdpp` with IncludeCode module wil produce the following:
+Compiling `index.mmd` with IncludeCode module wil produce the following:
 
     # My Code
 
@@ -196,14 +198,14 @@ Furthermore the IncludeCode module supports line extraction and language
 specification. The line extraction is like python list slicing (e.g. 3:6; lines
 three to six). Please note that line counting starts at one, not at zero.
 
-Local file `index.mdpp`:
+Local file `index.mmd`:
 
     # My Code
 
     !INCLUDECODE "hello.py" (python), 1:2
     Easy as that!
 
-Compiling `index.mdpp` with IncludeCode module will produce the following:
+Compiling `index.mmd` with IncludeCode module will produce the following:
 
     # My Code
 
@@ -271,7 +273,7 @@ becomes
 3\. Examples
 --------
 
-Example file.mdpp:
+Example file.mmd:
 
 # Document Title
 
