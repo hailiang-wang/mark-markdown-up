@@ -12,7 +12,7 @@ if path.isfile('README.md'):
 setup(
     name='m2up',
     description='Mark Markdown Up',
-    version='1.0.0',
+    version='1.0.1',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',
