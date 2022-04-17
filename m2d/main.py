@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*-
 # Copyright (C) 2010 John Reese
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -9,7 +10,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
-import MarkdownPP
+import m2d
 
 import os
 import time
@@ -31,12 +32,12 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
     patterns = ["*.mdpp"]
 
     def process(self, event):
-        modules = MarkdownPP.modules.keys()
-        mdpp = open(event.src_path, 'r')
+        modules = m2d.modules.keys()
+        mdpp = open(event.src_path, 'r', encoding='UTF-8')
 
         # Output file takes filename from input file but has .md extension
-        md = open(os.path.splitext(event.src_path)[0]+'.md', 'w')
-        MarkdownPP.MarkdownPP(input=mdpp, output=md, modules=modules)
+        md = open(os.path.splitext(event.src_path)[0]+'.md', 'w', encoding='UTF-8')
+        m2d.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         # Logs time and file changed (with colors!)
         print(time.strftime("%c") + ":",
@@ -70,7 +71,7 @@ def main():
                         'output file is specified, writes output to stdout.')
     parser.add_argument('-e', '--exclude', help='List of modules to '
                         'exclude, separated by commas. Available modules: '
-                        + ', '.join(MarkdownPP.modules.keys()))
+                        + ', '.join(m2d.modules.keys()))
     args = parser.parse_args()
 
     # If watch flag is on, watch dirs instead of processing individual file
@@ -94,13 +95,13 @@ def main():
         observer.join()
 
     else:
-        mdpp = open(args.FILENAME, 'r')
+        mdpp = open(args.FILENAME, 'r', encoding='UTF-8')
         if args.output:
-            md = open(args.output, 'w')
+            md = open(args.output, 'w', encoding='UTF-8')
         else:
             md = sys.stdout
 
-        modules = list(MarkdownPP.modules)
+        modules = list(m2d.modules)
 
         if args.exclude:
             for module in args.exclude.split(','):
@@ -109,7 +110,7 @@ def main():
                 else:
                     print('Cannot exclude ', module, ' - no such module')
 
-        MarkdownPP.MarkdownPP(input=mdpp, output=md, modules=modules)
+        m2d.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         mdpp.close()
         md.close()

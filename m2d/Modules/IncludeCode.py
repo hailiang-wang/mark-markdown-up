@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2016 Smart Software Solutions, Inc
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -9,7 +11,7 @@ import re
 
 from os import path
 
-from MarkdownPP.Modules.Include import Include
+from m2d.Modules.Include import Include
 
 
 class IncludeCode(Include):
@@ -54,7 +56,7 @@ class IncludeCode(Include):
             code_file = path.join(pwd, code_file)
 
         try:
-            with open(code_file, "r") as fs:
+            with open(code_file, "r", encoding='UTF-8') as fs:
                 code_data = fs.readlines()
 
             return (

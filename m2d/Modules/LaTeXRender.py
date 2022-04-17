@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012 Alex Nisnevich
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -15,8 +17,8 @@ except ImportError:
     from httplib import HTTPConnection
     from urllib import urlencode
 
-from MarkdownPP.Module import Module
-from MarkdownPP.Transform import Transform
+from m2d.Module import Module
+from m2d.Transform import Transform
 
 # $...$ (or $$...$$)
 singlelinere = re.compile(r"\$(\$?)..*\$(\$?)")

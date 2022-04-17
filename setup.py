@@ -10,12 +10,12 @@ if path.isfile('README.md'):
     shutil.copyfile('README.md', 'README')
 
 setup(
-    name='MarkdownPP',
-    description='Markdown preprocessor',
-    version='1.5.1',
-    author='John Reese',
-    author_email='john@noswap.com',
-    url='https://github.com/jreese/markdown-pp',
+    name='m2d',
+    description='Mark Markdown',
+    version='1.0.0',
+    author='John Reese, Hai Liang W.',
+    author_email='hailiang.hl.wang@gmail.com',
+    url='https://github.com/hailiang-wang/markdown-pp',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
@@ -29,10 +29,10 @@ setup(
         'Development Status :: 5 - Production/Stable',
     ],
     license='MIT License',
-    packages=['MarkdownPP', 'MarkdownPP/Modules'],
+    packages=['m2d', 'm2d/Modules'],
     entry_points={
         'console_scripts': [
-            'markdown-pp = MarkdownPP.main:main'
+            'm2d = m2d.main:main'
         ],
     },
     install_requires=[

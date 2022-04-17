@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2012 Alex Nisnevich
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -8,8 +10,8 @@ from __future__ import unicode_literals
 import re
 import os
 
-from MarkdownPP.Module import Module
-from MarkdownPP.Transform import Transform
+from m2d.Module import Module
+from m2d.Transform import Transform
 
 youtube_url_re = re.compile(r'^!VIDEO\s+"https?://www\.youtube\.com'
                             r'/embed/([a-zA-Z0-9_\-]*)"')

@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 John Reese
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 # flake8: noqa
 

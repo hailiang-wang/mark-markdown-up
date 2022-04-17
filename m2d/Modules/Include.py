@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 John Reese
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -9,8 +11,8 @@ import glob
 import re
 from os import path
 
-from MarkdownPP.Module import Module
-from MarkdownPP.Transform import Transform
+from m2d.Module import Module
+from m2d.Transform import Transform
 
 
 class Include(Module):
@@ -52,7 +54,7 @@ class Include(Module):
 
     def include_file(self, filename, pwd="", shift=0):
         try:
-            f = open(filename, "r", encoding = self.encoding)
+            f = open(filename, "r", encoding='UTF-8')
             data = f.readlines()
             f.close()
 

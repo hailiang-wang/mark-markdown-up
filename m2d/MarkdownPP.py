@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 John Reese
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from MarkdownPP import Modules
+from m2d import Modules
 from .Processor import Processor
 import sys
 

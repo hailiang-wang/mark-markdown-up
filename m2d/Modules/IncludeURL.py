@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright (C) 2016 Smart Software Solutions, Inc
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -16,7 +18,7 @@ except ImportError:
     from urllib import urlopen
     from urlparse import urlparse
 
-from MarkdownPP.Modules.Include import Include
+from m2d.Modules.Include import Include
 
 
 class IncludeURL(Include):

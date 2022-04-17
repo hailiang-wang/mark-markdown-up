@@ -14,8 +14,8 @@ import unittest
 import os
 import re
 import subprocess
-from MarkdownPP import MarkdownPP
-from MarkdownPP import modules as Modules
+from m2d import MarkdownPP
+from m2d import modules as Modules
 from tempfile import NamedTemporaryFile
 
 try:

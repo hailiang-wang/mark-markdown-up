@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 # Copyright 2015 John Reese
+# Modifications copyright (C) 2022 Hai Liang W.
 # Licensed under the MIT license
 
 from __future__ import absolute_import
@@ -7,8 +9,8 @@ from __future__ import unicode_literals
 
 import re
 
-from MarkdownPP.Module import Module
-from MarkdownPP.Transform import Transform
+from m2d.Module import Module
+from m2d.Transform import Transform
 
 tocre = re.compile(r"^!TOC(\s+[1-6])?\s*$")
 atxre = re.compile(r"^(#+)\s*(.+)$")
