@@ -2,7 +2,7 @@
 
 <!-- Readme is updated with `markup README.m.md -o README.md`, modify README.m.md in first place. -->
 
-Stack up markdown files with `include` directives.
+Stack up markdown files with `!INCLUDE` directives.
 
 Previous, Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
 
@@ -46,7 +46,10 @@ and process that document when viewing the repository.
 2.1.1\.  [Header 1.a](#header1.a-1)  
 2.2\.  [Header 2](#header2-1)  
 2.3\.  [Contribute](#contribute)  
-2.4\.  [Publish new readme](#publishnewreadme)  
+2.3.1\.  [Publish new readme](#publishnewreadme)  
+2.3.2\.  [Install locally and watch](#installlocallyandwatch)  
+2.3.3\.  [Publish new version](#publishnewversion)  
+2.4\.  [Konwn Issues](#konwnissues)  
 2.5\.  [Support](#support)  
 2.6\.  [References](#references)  
 
@@ -54,10 +57,9 @@ and process that document when viewing the repository.
 
 ## 0.1\. Installation and Usage
 
-Currently, you'll need to download the source code from [GitHub][repo] or clone
-the repository, and the run the installation script manually.
+    pip install markup-markdown
 
-    pip install markup
+To download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown)
 
 There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
@@ -321,7 +323,10 @@ Example file.m.md:
 2.1.1\.  [Header 1.a](#header1.a-1)  
 2.2\.  [Header 2](#header2-1)  
 2.3\.  [Contribute](#contribute)  
-2.4\.  [Publish new readme](#publishnewreadme)  
+2.3.1\.  [Publish new readme](#publishnewreadme)  
+2.3.2\.  [Install locally and watch](#installlocallyandwatch)  
+2.3.3\.  [Publish new version](#publishnewversion)  
+2.4\.  [Konwn Issues](#konwnissues)  
 2.5\.  [Support](#support)  
 2.6\.  [References](#references)  
 
@@ -381,12 +386,39 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
 <a name="publishnewreadme"></a>
 
-## 2.4\. Publish new readme
+### 2.3.1\. Publish new readme
+
+Generate file.
 
 ```
 cd ROOT_DIR
 markup README.m.md -o README.md
 ```
+
+<a name="installlocallyandwatch"></a>
+
+### 2.3.2\. Install locally and watch
+
+Watch dirs.
+
+```
+python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
+```
+
+<a name="publishnewversion"></a>
+
+### 2.3.3\. Publish new version
+
+```
+./scripts/publish.sh
+```
+
+<a name="konwnissues"></a>
+
+## 2.4\. Konwn Issues
+
+- file encoding only support UTF-8
+- TOC not support punctuations
 
 <a name="support"></a>
 

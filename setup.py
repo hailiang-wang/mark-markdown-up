@@ -11,8 +11,8 @@ import shutil
 
 setup(
     name='markup-markdown',
-    description='Mark Markdown Up',
-    version='1.0.3',
+    description='Markup Markdown',
+    version='1.0.5',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',

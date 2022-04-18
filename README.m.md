@@ -2,7 +2,7 @@
 
 <!-- Readme is updated with `markup README.m.md -o README.md`, modify README.m.md in first place. -->
 
-Stack up markdown files with `include` directives.
+Stack up markdown files with `!INCLUDE` directives.
 
 Previous, Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
 
@@ -31,10 +31,9 @@ and process that document when viewing the repository.
 
 ## Installation and Usage
 
-Currently, you'll need to download the source code from [GitHub][repo] or clone
-the repository, and the run the installation script manually.
-
     pip install markup-markdown
+
+To download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown)
 
 There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
@@ -315,6 +314,11 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 ```
 ./scripts/publish.sh
 ```
+
+## Konwn Issues
+
+- file encoding only support UTF-8
+- TOC not support punctuations
 
 ## Support
 
