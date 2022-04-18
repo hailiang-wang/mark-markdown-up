@@ -12,7 +12,7 @@ import shutil
 setup(
     name='m2up',
     description='Mark Markdown Up',
-    version='1.0.1',
+    version='1.0.2',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',

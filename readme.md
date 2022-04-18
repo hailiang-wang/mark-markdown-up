@@ -19,9 +19,9 @@ that contains sections or features that would be laborious to generate or
 maintain by hand.
 
 Documents designed to be preprocessed by MarkdownPP should try to follow the
-convention of naming files with a .mmd extension, so that MarkdownPP can
+convention of naming files with a .m.md extension, so that MarkdownPP can
 generate a document with the same name, but with the standard .md extension.
-As an example, this document in raw format is named "readme.mmd", and the
+As an example, this document in raw format is named "readme.m.md", and the
 generated document from MarkdownPP is named "readme.md" so that GitHub can find
 and process that document when viewing the repository.
 
@@ -54,10 +54,10 @@ There are two components to the project: a Python module, `m2up`, and a
 Python script that acts as a simple command line interface to the module,
 `m2up`.
 
-Assuming you have a file named `foo.mmd`(mmd is Mark Markdown for short), you can generate the preprocessed
+Assuming you have a file named `foo.m.md`(m.md is Mark Markdown for short, ".md" as end so we can leverage Editor's highlight), you can generate the preprocessed
 file `foo.md` by running the following command:
 
-    m2up foo.mmd -o foo.md
+    m2up foo.m.md -o foo.md
 
 If you do not specify an output file name, the results will be printed to
 stdout, enabling them to be piped to another command.
@@ -65,7 +65,7 @@ stdout, enabling them to be piped to another command.
 By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
-    m2up foo.mmd -o foo.md -e latexrender,youtubembed
+    m2up foo.m.md -o foo.md -e latexrender,youtubembed
 
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
@@ -85,20 +85,20 @@ In order to facilitate large documentation projects, MarkdownPP has an Include
 module that will replace a line of the form `!INCLUDE "path/to/filename"` with
 the contents of that file, recursively including other files as needed.
 
-File `foo.mmd`:
+File `foo.m.md`:
 
  Hello
 
-File `bar.mmd`:
+File `bar.m.md`:
 
  World!
 
-File `index.mmd`:
+File `index.m.md`:
 
- !INCLUDE "foo.mmd"
- !INCLUDE "bar.mmd"
+ !INCLUDE "foo.m.md"
+ !INCLUDE "bar.m.md"
 
-Compiling `index.mmd` with the Include module will produce the following:
+Compiling `index.m.md` with the Include module will produce the following:
 
  Hello
  World!
@@ -106,18 +106,18 @@ Compiling `index.mmd` with the Include module will produce the following:
 Furthermore, the Include module supports the shifting of headers in the
 file to be included. For example,
 
-File `foo.mmd`:
+File `foo.m.md`:
 
     # Foo
     ## Bar
 
-File `index.mmd`:
+File `index.m.md`:
 
     # Title
     ## Subtitle
-    !INCLUDE "foo.mmd", 2
+    !INCLUDE "foo.m.md", 2
 
-Compiling `index.mmd` with the Include module and using `2` as shift
+Compiling `index.m.md` with the Include module and using `2` as shift
 parameter will yield:
 
     # Title
@@ -139,20 +139,20 @@ means that is it possible to include local files that then require remote files,
 but impossible parse !INCLUDE statements found in remote files. This is prevent
 ambiguity as to where the file would be located.
 
-Remote file `http://your.domain/foo.mmd`:
+Remote file `http://your.domain/foo.m.md`:
 
     Hello
 
-Remote file `http://your.domain/bar.mmd`:
+Remote file `http://your.domain/bar.m.md`:
 
     Remote World!
 
-Local file `index.mmd`:
+Local file `index.m.md`:
 
-    !INCLUDEURL "http://your.domain/foo.mmd"
-    !INCLUDEURL "http://your.domain/bar.mmd"
+    !INCLUDEURL "http://your.domain/foo.m.md"
+    !INCLUDEURL "http://your.domain/bar.m.md"
 
-Compiling `index.mmd` with the IncludeURL module will produce the following:
+Compiling `index.m.md` with the IncludeURL module will produce the following:
 
     Hello
     Remote World!
@@ -173,14 +173,14 @@ Local code file `hello.py`:
     if __name__ == '__main__':
         main()
 
-Local file `index.mmd`:
+Local file `index.m.md`:
 
     # My Code
 
     !INCLUDECODE "hello.py"
     Easy as that!
 
-Compiling `index.mmd` with IncludeCode module wil produce the following:
+Compiling `index.m.md` with IncludeCode module wil produce the following:
 
     # My Code
 
@@ -198,14 +198,14 @@ Furthermore the IncludeCode module supports line extraction and language
 specification. The line extraction is like python list slicing (e.g. 3:6; lines
 three to six). Please note that line counting starts at one, not at zero.
 
-Local file `index.mmd`:
+Local file `index.m.md`:
 
     # My Code
 
     !INCLUDECODE "hello.py" (python), 1:2
     Easy as that!
 
-Compiling `index.mmd` with IncludeCode module will produce the following:
+Compiling `index.m.md` with IncludeCode module will produce the following:
 
     # My Code
 
@@ -225,6 +225,12 @@ markup.  The table is inserted into the document wherever the preprocessor finds
 `!TOC` at the beginning of a line.  Named `<a>` tags are inserted above each
 Markdown header, and the headings are numbered hierarchically based on the
 heading tag that Markdown would generate.
+
+```
+!TOC DEPTH H1_LANG
+```
+
+Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
 
 <a name="reference"></a>
 
@@ -273,7 +279,7 @@ becomes
 3\. Examples
 --------
 
-Example file.mmd:
+Example file.m.md:
 
 # Document Title
 

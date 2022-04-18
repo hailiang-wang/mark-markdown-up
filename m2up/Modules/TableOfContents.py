@@ -8,15 +8,42 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import re
+import sys
 
 from m2up.Module import Module
 from m2up.Transform import Transform
 
-tocre = re.compile(r"^!TOC(\s+[1-6])?\s*$")
+# language code for headline 1: c(zh_CN); e(en_US)
+tocre = re.compile(r"^!TOC(\s+[1-6])?(\s+\w+)?\s*$")
 atxre = re.compile(r"^(#+)\s*(.+)$")
 setextre = re.compile(r"^(=+|-+)\s*$")
 fencedcodere = re.compile(r"^```[ \w]*$")
 linkre = re.compile(r"(\[(.*?)\][\(\[].*?[\)\]])")
+cn_digits = dict({
+    "1": "一",
+    "2":"二",
+    "3":"三",
+    "4":"四",
+    "5":"五",
+    "6":"六",
+    "7":"七",
+    "8":"八",
+    "9":"九",
+    "10":"十",
+    "11":"十一",
+    "12":"十二",
+    "13":"十三",
+    "14":"十四",
+    "15":"十五",
+    "16":"十六",
+    "17":"十七",
+    "18":"十八",
+    "19":"十九",
+    "20":"二十",
+    "21":"二十一",
+    "22":"二十二",
+    "23":"二十三"
+})
 
 
 class TableOfContents(Module):
@@ -45,6 +72,20 @@ class TableOfContents(Module):
             title = title.replace(link[0], link[1])
         return title
 
+
+    def fix_section_with_lang(self, section, lang):
+        if section.count(".") == 1 and lang == "cn":
+            section = section.strip().replace(".", "").replace("\\", "").strip()
+
+            if not section in cn_digits:
+                print("Key not found in cn_digits: %s" % section)
+                sys.exit(1)
+
+            return cn_digits[section] + "、"
+        else:
+            return section
+            
+
     def transform(self, data):
         transforms = []
 
@@ -54,6 +95,7 @@ class TableOfContents(Module):
         toclines = []
         tocdepth = 0
         tocdata = ""
+        toch1lang = "en"
 
         headers = {}
 
@@ -81,6 +123,18 @@ class TableOfContents(Module):
                     depth = int(depth)
                     tocdepth = max(depth, tocdepth)
                 toclines.append(linenum)
+
+                h1lang = match.group(2)
+                if h1lang is not None:
+                    h1lang = h1lang.strip().lower()
+                    print("h1lang %s" %  h1lang)
+                    if h1lang in ["en", "cn"]:
+                        toch1lang = h1lang
+                    else:
+                        print("Unexpected lang code for toc, avaiable code: en, cn")
+                        sys.exit(1)
+
+                print("TOC langcode %s" % toch1lang)
 
             # hash headers
             match = atxre.search(line)
@@ -166,10 +220,10 @@ class TableOfContents(Module):
             title = TableOfContents.clean_html_string(title)
 
             tocdata += ("%s [%s](#%s)  \n" %
-                        (section, TableOfContents.clean_title(title), short))
+                        (self.fix_section_with_lang(section, h1lang), TableOfContents.clean_title(title), short))
 
             transforms.append(Transform(linenum, "swap",
-                              data[linenum].replace(title, section + title)))
+                              data[linenum].replace(title, self.fix_section_with_lang(section, h1lang) + title)))
             transforms.append(Transform(linenum, "prepend",
                               "<a name=\"%s\"></a>\n\n" % short))
 
