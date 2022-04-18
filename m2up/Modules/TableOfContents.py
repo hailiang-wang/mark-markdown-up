@@ -106,6 +106,22 @@ class TableOfContents(Module):
         lastline = ''
         for line in data:
 
+            striped = line.strip()
+            '''
+            Bypass page breaker
+            https://pandoc.org/MANUAL.html#extension-raw_attribute
+            ```{=openxml}
+            <w:p>
+            <w:r>
+                <w:br w:type="page"/>
+            </w:r>
+            </w:p>
+            ```
+            '''
+            if striped.startswith("```") or striped.startswith("<w:") or striped.startswith("</w:"):
+                linenum = linenum + 1
+                continue
+
             # Fenced code blocks (Github-flavored markdown)
             match = fencedcodere.search(line)
             if match:
@@ -217,7 +233,7 @@ class TableOfContents(Module):
                            ".%d\\. " % headernum)
 
             short = TableOfContents.clean_html_string(short)
-            title = TableOfContents.clean_html_string(title)
+            title = TableOfContents.clean_html_string(title).strip()
 
             tocdata += ("%s [%s](#%s)  \n" %
                         (self.fix_section_with_lang(section, h1lang), TableOfContents.clean_title(title), short))
