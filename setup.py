@@ -10,9 +10,9 @@ import shutil
 #     shutil.copyfile('README.md', 'README')
 
 setup(
-    name='markup',
+    name='markup-markdown',
     description='Mark Markdown Up',
-    version='1.0.2',
+    version='1.0.3',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',

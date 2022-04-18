@@ -150,7 +150,7 @@ class TableOfContents(Module):
                         print("Unexpected lang code for toc, avaiable code: en, cn")
                         sys.exit(1)
 
-                print("TOC langcode %s" % toch1lang)
+                # print("TOC langcode %s" % toch1lang)
 
             # hash headers
             match = atxre.search(line)

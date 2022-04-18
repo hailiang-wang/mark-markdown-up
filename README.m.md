@@ -34,7 +34,7 @@ and process that document when viewing the repository.
 Currently, you'll need to download the source code from [GitHub][repo] or clone
 the repository, and the run the installation script manually.
 
-    pip install markup
+    pip install markup-markdown
 
 There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
@@ -52,6 +52,12 @@ By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
     markup foo.m.md -o foo.md -e latexrender,youtubembed
+
+To watch directory and subdirectories:
+
+    markup -w PATH
+
+Where PATH is a directory path, e.g. `.`, `/home/user`.
 
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
@@ -287,11 +293,27 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
 ## Contribute
 
-## Publish new readme
+### Publish new readme
+
+Generate file.
 
 ```
 cd ROOT_DIR
 markup README.m.md -o README.md
+```
+
+### Install locally and watch
+
+Watch dirs.
+
+```
+python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
+```
+
+### Publish new version
+
+```
+./scripts/publish.sh
 ```
 
 ## Support

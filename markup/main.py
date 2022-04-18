@@ -28,22 +28,31 @@ class colors:
 
 # Custom event handler for watchdog observer
 class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
-    # Look for .m.md files
     patterns = ["*.m.md"]
 
     def process(self, event):
+        # Look for .m.md files
+        if not event.src_path.endswith(".m.md"):
+            return None
+
         modules = markup.modules.keys()
         mdpp = open(event.src_path, 'r', encoding='UTF-8')
 
         # Output file takes filename from input file but has .md extension
-        md = open(os.path.splitext(event.src_path)[0]+'.md', 'w', encoding='UTF-8')
+        output_filepath = (event.src_path[::-1].replace("dm.m.", "dm.", 1))[::-1]
+
+        print(time.strftime("%c") + ":",
+              colors.MAGB + output_filepath,
+              colors.GREEN + "[re-]generated",
+              colors.NORMAL)
+        md = open(output_filepath, 'w', encoding='UTF-8')
         markup.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         # Logs time and file changed (with colors!)
         print(time.strftime("%c") + ":",
               colors.MAGB + event.src_path,
               colors.GREEN + event.event_type,
-              "and processed with MarkdownPP",
+              "and processed with Markup Markdown",
               colors.NORMAL)
 
     def on_modified(self, event):

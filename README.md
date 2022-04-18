@@ -76,6 +76,12 @@ modules to exclude:
 
     markup foo.m.md -o foo.md -e latexrender,youtubembed
 
+To watch directory and subdirectories:
+
+    markup -w PATH
+
+Where PATH is a directory path, e.g. `.`, `/home/user`.
+
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
