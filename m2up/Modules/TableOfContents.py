@@ -81,7 +81,7 @@ class TableOfContents(Module):
                 print("Key not found in cn_digits: %s" % section)
                 sys.exit(1)
 
-            return cn_digits[section] + "、"
+            return "第"+ cn_digits[section] + "章、"
         else:
             return section
             
