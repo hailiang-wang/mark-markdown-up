@@ -10,8 +10,8 @@ from __future__ import unicode_literals
 import re
 import os
 
-from m2up.Module import Module
-from m2up.Transform import Transform
+from markup.Module import Module
+from markup.Transform import Transform
 
 youtube_url_re = re.compile(r'^!VIDEO\s+"https?://www\.youtube\.com'
                             r'/embed/([a-zA-Z0-9_\-]*)"')

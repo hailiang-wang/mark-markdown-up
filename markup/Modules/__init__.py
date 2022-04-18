@@ -19,7 +19,7 @@ def load_modules():
     for filename in os.listdir(dirname):
         (modulename, extension) = path.splitext(filename)
         if extension.lower() == ".py" and modulename.lower() != "__init__":
-            module = __import__("m2up.Modules.%s" % modulename,
+            module = __import__("markup.Modules.%s" % modulename,
                                 fromlist=[modulename])
             if modulename in dir(module):
                 nickname = modulename.lower()

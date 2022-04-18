@@ -10,8 +10,8 @@ from __future__ import unicode_literals
 import re
 import sys
 
-from m2up.Module import Module
-from m2up.Transform import Transform
+from markup.Module import Module
+from markup.Transform import Transform
 
 # language code for headline 1: c(zh_CN); e(en_US)
 tocre = re.compile(r"^!TOC(\s+[1-6])?(\s+\w+)?\s*$")

@@ -10,7 +10,7 @@ from __future__ import unicode_literals
 
 import argparse
 import sys
-import m2up
+import markup
 
 import os
 import time
@@ -28,16 +28,16 @@ class colors:
 
 # Custom event handler for watchdog observer
 class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
-    # Look for .mdpp files
-    patterns = ["*.mdpp"]
+    # Look for .m.md files
+    patterns = ["*.m.md"]
 
     def process(self, event):
-        modules = m2up.modules.keys()
+        modules = markup.modules.keys()
         mdpp = open(event.src_path, 'r', encoding='UTF-8')
 
         # Output file takes filename from input file but has .md extension
         md = open(os.path.splitext(event.src_path)[0]+'.md', 'w', encoding='UTF-8')
-        m2up.MarkdownPP(input=mdpp, output=md, modules=modules)
+        markup.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         # Logs time and file changed (with colors!)
         print(time.strftime("%c") + ":",
@@ -55,7 +55,7 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
 
 def main():
     # setup command line arguments
-    parser = argparse.ArgumentParser(description='Preprocessor for Markdown'
+    parser = argparse.ArgumentParser(description='Stack up for Markdown'
                                      ' files.')
 
     parser.add_argument('FILENAME', help='Input file name (or directory if '
@@ -71,7 +71,7 @@ def main():
                         'output file is specified, writes output to stdout.')
     parser.add_argument('-e', '--exclude', help='List of modules to '
                         'exclude, separated by commas. Available modules: '
-                        + ', '.join(m2up.modules.keys()))
+                        + ', '.join(markup.modules.keys()))
     args = parser.parse_args()
 
     # If watch flag is on, watch dirs instead of processing individual file
@@ -101,7 +101,7 @@ def main():
         else:
             md = sys.stdout
 
-        modules = list(m2up.modules)
+        modules = list(markup.modules)
 
         if args.exclude:
             for module in args.exclude.split(','):
@@ -110,7 +110,7 @@ def main():
                 else:
                     print('Cannot exclude ', module, ' - no such module')
 
-        m2up.MarkdownPP(input=mdpp, output=md, modules=modules)
+        markup.MarkdownPP(input=mdpp, output=md, modules=modules)
 
         mdpp.close()
         md.close()

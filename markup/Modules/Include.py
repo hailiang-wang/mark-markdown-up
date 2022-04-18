@@ -11,8 +11,8 @@ import glob
 import re
 from os import path
 
-from m2up.Module import Module
-from m2up.Transform import Transform
+from markup.Module import Module
+from markup.Transform import Transform
 
 
 class Include(Module):

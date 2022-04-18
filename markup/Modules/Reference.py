@@ -9,8 +9,8 @@ from __future__ import unicode_literals
 
 import re
 
-from m2up.Module import Module
-from m2up.Transform import Transform
+from markup.Module import Module
+from markup.Transform import Transform
 
 refre = re.compile(r"^!REF\s*$")
 linkre = re.compile(r"^\[([^\]]+)\]:\s+(\S+)(?:\s*[\"'\(](.+)[\"'\(]\s*)?$")

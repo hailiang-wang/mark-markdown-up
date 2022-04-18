@@ -10,7 +10,7 @@ import shutil
 #     shutil.copyfile('README.md', 'README')
 
 setup(
-    name='m2up',
+    name='markup',
     description='Mark Markdown Up',
     version='1.0.2',
     author='John Reese, Hai Liang W.',
@@ -29,10 +29,10 @@ setup(
         'Development Status :: 5 - Production/Stable',
     ],
     license='MIT License',
-    packages=['m2up', 'm2up/Modules'],
+    packages=['markup', 'markup/Modules'],
     entry_points={
         'console_scripts': [
-            'm2up = m2up.main:main'
+            'markup = markup.main:main'
         ],
     },
     install_requires=[

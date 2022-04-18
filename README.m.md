@@ -1,7 +1,6 @@
-Mark Markdown Up
-==================================
+# Markup-Markdown
 
-<!-- Readme is updated with `m2up README.m.md -o README.md`, modify README.m.md in first place. -->
+<!-- Readme is updated with `markup README.m.md -o README.md`, modify README.m.md in first place. -->
 
 Stack up markdown files with `include` directives.
 
@@ -9,8 +8,8 @@ Previous, Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown
 
 **NOTICE: MarkdownPP is no longer actively maintained. MarkdownPP will not receive any future releases.**
 
-The Mark Markdown Up is a Python module designed to add extended features
-on top of the excellent Markdown syntax defined by John Gruber.  These additions
+The Markup-Markdown is a Python module designed to add extended features
+on top of the excellent Markdown syntax defined by John Gruber. These additions
 are mainly focused on creating larger technical documents without needing to use
 something as heavy and syntactically complex as Docbook.
 
@@ -19,33 +18,32 @@ the original document, with the end goal of generating a new Markdown document
 that contains sections or features that would be laborious to generate or
 maintain by hand.
 
-Documents designed to be preprocessed by Mark Markdown Up should try to follow the
-convention of naming files with a .m.md extension(m.md is Mark Markdown for short, ".md" as end so we can leverage Editor's highlight), so that Mark Markdown Up can
+Documents designed to be preprocessed by Markup-Markdown should try to follow the
+convention of naming files with a .m.md extension(m.md is Markup Markdown for short, ".md" as end so we can leverage Editor's highlight), so that Markup-Markdown can
 generate a document with the same name, but with the standard .md extension.
 As an example, this document in raw format is named "readme.m.md", and the
-generated document from Mark Markdown Up is named "readme.md" so that GitHub can find
+generated document from Markup-Markdown is named "readme.md" so that GitHub can find
 and process that document when viewing the repository.
 
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
 !TOC
 
-Installation and Usage
-----------------------
+## Installation and Usage
 
 Currently, you'll need to download the source code from [GitHub][repo] or clone
 the repository, and the run the installation script manually.
 
-    pip install m2up
+    pip install markup
 
-There are two components to the project: a Python module, `m2up`, and a
+There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
-`m2up`.
+`markup`.
 
 Assuming you have a file named `foo.m.md`, you can generate the preprocessed
 file `foo.md` by running the following command:
 
-    m2up foo.m.md -o foo.md
+    markup foo.m.md -o foo.md
 
 If you do not specify an output file name, the results will be printed to
 stdout, enabling them to be piped to another command.
@@ -53,15 +51,14 @@ stdout, enabling them to be piped to another command.
 By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
-    m2up foo.m.md -o foo.md -e latexrender,youtubembed
+    markup foo.m.md -o foo.md -e latexrender,youtubembed
 
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
-    m2up --help
+    markup --help
 
-Modules
---------
+## Modules
 
 ### Includes
 
@@ -71,21 +68,21 @@ the contents of that file, recursively including other files as needed.
 
 File `foo.m.md`:
 
- Hello
+Hello
 
 File `bar.m.md`:
 
- World!
+World!
 
 File `index.m.md`:
 
- !INCLUDE "foo.m.md"
- !INCLUDE "bar.m.md"
+!INCLUDE "foo.m.md"
+!INCLUDE "bar.m.md"
 
 Compiling `index.m.md` with the Include module will produce the following:
 
- Hello
- World!
+Hello
+World!
 
 Furthermore, the Include module supports the shifting of headers in the
 file to be included. For example,
@@ -199,8 +196,8 @@ Compiling `index.m.md` with IncludeCode module will produce the following:
 
 The biggest feature provided by MarkdownPP is the generation of a table of
 contents for a document, with each item linked to the appropriate section of the
-markup.  The table is inserted into the document wherever the preprocessor finds
-`!TOC` at the beginning of a line.  Named `<a>` tags are inserted above each
+markup. The table is inserted into the document wherever the preprocessor finds
+`!TOC` at the beginning of a line. Named `<a>` tags are inserted above each
 Markdown header, and the headings are numbered hierarchically based on the
 heading tag that Markdown would generate.
 
@@ -213,8 +210,8 @@ Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `
 ### Reference
 
 Similarly, MarkdownPP can generate a list of references that follow Markdown's
-alternate link syntax, eg `[name]: <url> "Title"`.  A list of links will be
-inserted wherever the preprocessor finds a line beginning with `!REF`.  The
+alternate link syntax, eg `[name]: <url> "Title"`. A list of links will be
+inserted wherever the preprocessor finds a line beginning with `!REF`. The
 generated reference list follows the same alternate linking method to ensure
 consistency in your document, but the link need not be referenced anywhere in
 the document to be included in the list.
@@ -226,11 +223,11 @@ using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
 
 For example,
 
- $\displaystyle \int x^2 = \frac{x^3}{3} + C$
+$\displaystyle \int x^2 = \frac{x^3}{3} + C$
 
 becomes
 
-![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\displaystyle \int x^2 = \frac{x^3}{3} + C")
+![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
 
 ### YouTube Embeds
 
@@ -246,14 +243,13 @@ becomes
 
 !VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
 
-Examples
---------
+## Examples
 
 Example file.m.md:
 
 # Document Title
 
- !TOC
+!TOC
 
 ## Header 1
 
@@ -261,54 +257,51 @@ Example file.m.md:
 
 ## Header 2
 
- !REF
+!REF
 
- [github]: http://github.com "GitHub"
+[github]: http://github.com "GitHub"
 
 The preprocessor would generate the following Markdown-ready document file.md:
 
 # Document Title
 
- 1\. [Header 1](#header1)
- 1.1\. [Header 1.a](#header1a)
- 2\. [Header 2](#header2)
+1\. [Header 1](#header1)
+1.1\. [Header 1.a](#header1a)
+2\. [Header 2](#header2)
 
- <a name="header1"></a>
+<a name="header1"></a>
 
 ## Header 1
 
- <a name="header1a"></a>
+<a name="header1a"></a>
 
 ### Header 1.a
 
- <a name="header2"></a>
+<a name="header2"></a>
 
 ## Header 2
 
-* [GitHub][github]
+- [GitHub][github]
 
- [github]: http://github.com "GitHub"
+[github]: http://github.com "GitHub"
 
-Contribute
-----------
+## Contribute
 
 ## Publish new readme
 
 ```
 cd ROOT_DIR
-m2up README.m.md -o README.md
+markup README.m.md -o README.md
 ```
 
-Support
--------
+## Support
 
 If you find any problems with MarkdownPP, or have any feature requests, please
-report them to [GitHub][repo], and I will respond when possible.  Code
-contributions are *always* welcome, and ideas for new modules, or additions to
+report them to [GitHub][repo], and I will respond when possible. Code
+contributions are _always_ welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
 
-References
-----------
+## References
 
 !REF
 
