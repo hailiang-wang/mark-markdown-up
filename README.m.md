@@ -28,32 +28,9 @@ and process that document when viewing the repository.
 
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
-0.1\.  [Installation and Usage](#installationandusage)  
-0.2\.  [Modules](#modules)  
-0.2.1\.  [Includes](#includes)  
-0.2.2\.  [IncludeURLs](#includeurls)  
-0.2.3\.  [IncludeCode](#includecode)  
-0.2.4\.  [Table of Contents](#tableofcontents)  
-0.2.5\.  [Reference](#reference)  
-0.2.6\.  [LaTeX Rendering](#latexrendering)  
-0.2.7\.  [YouTube Embeds](#youtubeembeds)  
-0.3\.  [Examples](#examples)  
-1\.  [Document Title](#documenttitle)  
-1.1\.  [Header 1](#header1)  
-1.1.1\.  [Header 1.a](#header1.a)  
-1.2\.  [Header 2](#header2)  
-2\.  [Document Title](#documenttitle-1)  
-2.1\.  [Header 1](#header1-1)  
-2.1.1\.  [Header 1.a](#header1.a-1)  
-2.2\.  [Header 2](#header2-1)  
-2.3\.  [Contribute](#contribute)  
-2.4\.  [Publish new readme](#publishnewreadme)  
-2.5\.  [Support](#support)  
-2.6\.  [References](#references)  
+!TOC
 
-<a name="installationandusage"></a>
-
-0.1\. Installation and Usage
+Installation and Usage
 ----------------------
 
 Currently, you'll need to download the source code from [GitHub][repo] or clone
@@ -83,14 +60,10 @@ To see usage instructions, including a list of enabled modules, supply the
 
     m2up --help
 
-<a name="modules"></a>
-
-0.2\. Modules
+Modules
 --------
 
-<a name="includes"></a>
-
-### 0.2.1\. Includes
+### Includes
 
 In order to facilitate large documentation projects, MarkdownPP has an Include
 module that will replace a line of the form `!INCLUDE "path/to/filename"` with
@@ -136,9 +109,7 @@ parameter will yield:
     ### Foo
     #### Bar
 
-<a name="includeurls"></a>
-
-### 0.2.2\. IncludeURLs
+### IncludeURLs
 
 Facilitates the inclusion of remote files, such as files kept in a subversion
 or GitHub repository. Like Include, the IncludeURL module can replace a line of
@@ -168,9 +139,7 @@ Compiling `index.m.md` with the IncludeURL module will produce the following:
     Hello
     Remote World!
 
-<a name="includecode"></a>
-
-### 0.2.3\. IncludeCode
+### IncludeCode
 
 Facilitates the inclusion of local code files. GFM fences will be added
 around the included code.
@@ -226,9 +195,7 @@ Compiling `index.m.md` with IncludeCode module will produce the following:
     ```
     Easy as that!
 
-<a name="tableofcontents"></a>
-
-### 0.2.4\. Table of Contents
+### Table of Contents
 
 The biggest feature provided by MarkdownPP is the generation of a table of
 contents for a document, with each item linked to the appropriate section of the
@@ -243,9 +210,7 @@ heading tag that Markdown would generate.
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
 
-<a name="reference"></a>
-
-### 0.2.5\. Reference
+### Reference
 
 Similarly, MarkdownPP can generate a list of references that follow Markdown's
 alternate link syntax, eg `[name]: <url> "Title"`.  A list of links will be
@@ -254,30 +219,20 @@ generated reference list follows the same alternate linking method to ensure
 consistency in your document, but the link need not be referenced anywhere in
 the document to be included in the list.
 
-<a name="latexrendering"></a>
-
-### 0.2.6\. LaTeX Rendering
+### LaTeX Rendering
 
 Lines and blocks of lines beginning and ending with $ are rendered as LaTeX,
 using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
 
 For example,
 
- ![\displaystyle \int x^2 = \frac{x^3}{3} + C](<html>
-<head><title>405 Not Allowed</title></head>
-<body bgcolor="white">
-<center><h1>405 Not Allowed</h1></center>
-</body>
-</html> "\displaystyle \int x^2 = \frac{x^3}{3} + C")
-
+ $\displaystyle \int x^2 = \frac{x^3}{3} + C$
 
 becomes
 
 ![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\displaystyle \int x^2 = \frac{x^3}{3} + C")
 
-<a name="youtubeembeds"></a>
-
-### 0.2.7\. YouTube Embeds
+### YouTube Embeds
 
 As GitHub-flavored Markdown does not allow embed tags, each line of the form
 `!VIDEO "[youtube url]"` is converted into a screenshot that links to the video,
@@ -289,32 +244,22 @@ For example,
 
 becomes
 
-[![Link to Youtube video](images\youtube\7aEYoP5-duY.png)](http://www.youtube.com/watch?v=7aEYoP5-duY)
+!VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
 
-<a name="examples"></a>
-
-0.3\. Examples
+Examples
 --------
 
 Example file.m.md:
 
-<a name="documenttitle"></a>
-
-# 1\. Document Title
+# Document Title
 
  !TOC
 
-<a name="header1"></a>
+## Header 1
 
-## 1.1\. Header 1
+### Header 1.a
 
-<a name="header1.a"></a>
-
-### 1.1.1\. Header 1.a
-
-<a name="header2"></a>
-
-## 1.2\. Header 2
+## Header 2
 
  !REF
 
@@ -322,9 +267,7 @@ Example file.m.md:
 
 The preprocessor would generate the following Markdown-ready document file.md:
 
-<a name="documenttitle-1"></a>
-
-# 2\. Document Title
+# Document Title
 
  1\. [Header 1](#header1)
  1.1\. [Header 1.a](#header1a)
@@ -332,43 +275,31 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
  <a name="header1"></a>
 
-<a name="header1-1"></a>
-
-## 2.1\. Header 1
+## Header 1
 
  <a name="header1a"></a>
 
-<a name="header1.a-1"></a>
-
-### 2.1.1\. Header 1.a
+### Header 1.a
 
  <a name="header2"></a>
 
-<a name="header2-1"></a>
-
-## 2.2\. Header 2
+## Header 2
 
 * [GitHub][github]
 
  [github]: http://github.com "GitHub"
 
-<a name="contribute"></a>
-
-2.3\. Contribute
+Contribute
 ----------
 
-<a name="publishnewreadme"></a>
-
-## 2.4\. Publish new readme
+## Publish new readme
 
 ```
 cd ROOT_DIR
 m2up README.m.md -o README.md
 ```
 
-<a name="support"></a>
-
-2.5\. Support
+Support
 -------
 
 If you find any problems with MarkdownPP, or have any feature requests, please
@@ -376,11 +307,9 @@ report them to [GitHub][repo], and I will respond when possible.  Code
 contributions are *always* welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
 
-<a name="references"></a>
-
-2.6\. References
+References
 ----------
 
-*	[Markdown Preprocessor on GitHub][repo]
+!REF
 
 [repo]: http://github.com/jreese/markdown-pp "Markdown Preprocessor on GitHub"
