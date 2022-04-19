@@ -47,11 +47,12 @@ and process that document when viewing the repository.
 2.2\.  [Header 2](#header2-1)  
 2.3\.  [Contribute](#contribute)  
 2.3.1\.  [Publish new readme](#publishnewreadme)  
-2.3.2\.  [Install locally and watch](#installlocallyandwatch)  
-2.3.3\.  [Publish new version](#publishnewversion)  
-2.4\.  [Konwn Issues](#konwnissues)  
-2.5\.  [Support](#support)  
-2.6\.  [References](#references)  
+3\.  [OR](#or)  
+3.0.1\.  [Install locally and watch](#installlocallyandwatch)  
+3.0.2\.  [Publish new version](#publishnewversion)  
+3.1\.  [Konwn Issues](#konwnissues)  
+3.2\.  [Support](#support)  
+3.3\.  [References](#references)  
 
 <a name="installationandusage"></a>
 
@@ -324,11 +325,12 @@ Example file.m.md:
 2.2\.  [Header 2](#header2-1)  
 2.3\.  [Contribute](#contribute)  
 2.3.1\.  [Publish new readme](#publishnewreadme)  
-2.3.2\.  [Install locally and watch](#installlocallyandwatch)  
-2.3.3\.  [Publish new version](#publishnewversion)  
-2.4\.  [Konwn Issues](#konwnissues)  
-2.5\.  [Support](#support)  
-2.6\.  [References](#references)  
+3\.  [OR](#or)  
+3.0.1\.  [Install locally and watch](#installlocallyandwatch)  
+3.0.2\.  [Publish new version](#publishnewversion)  
+3.1\.  [Konwn Issues](#konwnissues)  
+3.2\.  [Support](#support)  
+3.3\.  [References](#references)  
 
 <a name="header1"></a>
 
@@ -393,11 +395,15 @@ Generate file.
 ```
 cd ROOT_DIR
 markup README.m.md -o README.md
+<a name="or"></a>
+
+# 3\. OR
+make README.md
 ```
 
 <a name="installlocallyandwatch"></a>
 
-### 2.3.2\. Install locally and watch
+### 3.0.1\. Install locally and watch
 
 Watch dirs.
 
@@ -407,7 +413,7 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 
 <a name="publishnewversion"></a>
 
-### 2.3.3\. Publish new version
+### 3.0.2\. Publish new version
 
 ```
 ./scripts/publish.sh
@@ -415,14 +421,14 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 
 <a name="konwnissues"></a>
 
-## 2.4\. Konwn Issues
+## 3.1\. Konwn Issues
 
 - file encoding only support UTF-8
 - TOC not support punctuations
 
 <a name="support"></a>
 
-## 2.5\. Support
+## 3.2\. Support
 
 If you find any problems with MarkdownPP, or have any feature requests, please
 report them to [GitHub][repo], and I will respond when possible. Code
@@ -431,7 +437,7 @@ existing modules, are also appreciated.
 
 <a name="references"></a>
 
-## 2.6\. References
+## 3.3\. References
 
 *	[GitHub][github]
 *	[GitHub][github]

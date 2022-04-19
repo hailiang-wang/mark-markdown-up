@@ -5,11 +5,11 @@
 
 
 # Test include
-!INCLUDE "datafiles/test_include.md"
+!INCLUDE "./test_include.md"
 
 
 # Test include url
-!INCLUDEURL "file:datafiles/test_include.md"
+!INCLUDEURL "file:./test_include.md"
 
 
 # Test youtube embed
@@ -17,12 +17,12 @@
 
 
 # Test shift 1
-!INCLUDE "datafiles/test_shift.mdpp", 1
+!INCLUDE "./test_shift.m.md", 1
 
 
 # Test shift 2
 
-!INCLUDE "datafiles/test_shift.mdpp", 2
+!INCLUDE "./test_shift.m.md", 2
 
 
 # Test reference list

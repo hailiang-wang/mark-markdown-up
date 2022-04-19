@@ -44,19 +44,20 @@ class IncludeURL(Include):
         if not parsed_url.netloc and not parsed_url.path:
             return []
 
-        binary_data = urlopen(url).readlines()
-        data = []
-        for datum in binary_data:
-            data.append(datum.decode())
-        if data:
-            # recursively include url data
-            for line_num, line in enumerate(data):
-                match = self.includere.search(line)
-                if match:
-                    data[line_num:line_num+1] = self.include(match)
+        with urlopen(url) as f:
+            binary_data = f.readlines()
+            data = []
+            for datum in binary_data:
+                data.append(datum.decode())
+            if data:
+                # recursively include url data
+                for line_num, line in enumerate(data):
+                    match = self.includere.search(line)
+                    if match:
+                        data[line_num:line_num+1] = self.include(match)
 
-                line_num += 1
+                    line_num += 1
 
-            return data
+                return data
 
         return []

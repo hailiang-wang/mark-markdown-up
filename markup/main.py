@@ -36,7 +36,7 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
             return None
 
         modules = markup.modules.keys()
-        mdpp = open(event.src_path, 'r', encoding='UTF-8')
+        mmd = open(event.src_path, 'r', encoding='UTF-8')
 
         # Output file takes filename from input file but has .md extension
         output_filepath = (event.src_path[::-1].replace("dm.m.", "dm.", 1))[::-1]
@@ -46,7 +46,7 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
               colors.GREEN + "[re-]generated",
               colors.NORMAL)
         md = open(output_filepath, 'w', encoding='UTF-8')
-        markup.MarkdownPP(input=mdpp, output=md, modules=modules)
+        markup.MarkdownPP(input=mmd, output=md, modules=modules)
 
         # Logs time and file changed (with colors!)
         print(time.strftime("%c") + ":",
@@ -70,10 +70,10 @@ def main():
     parser.add_argument('FILENAME', help='Input file name (or directory if '
                         'watching)')
 
-    # Argument for watching directory and subdirectory to process .mdpp files
+    # Argument for watching directory and subdirectory to process .m.md files
     parser.add_argument('-w', '--watch', action='store_true', help='Watch '
                         'current directory and subdirectories for changing '
-                        '.mdpp files and process in local directory. File '
+                        '.m.md files and process in local directory. File '
                         'output name is same as file input name.')
 
     parser.add_argument('-o', '--output', help='Output file name. If no '
@@ -89,7 +89,7 @@ def main():
         p = os.path.abspath(args.FILENAME)
         print("Watching: " + p + " (and subdirectories)")
 
-        # Custom watchdog event handler specific for .mdpp files
+        # Custom watchdog event handler specific for .m.md files
         event_handler = MarkdownPPFileEventHandler()
         observer = Observer()
         # pass event handler, directory, and flag to recurse subdirectories
@@ -104,7 +104,7 @@ def main():
         observer.join()
 
     else:
-        mdpp = open(args.FILENAME, 'r', encoding='UTF-8')
+        mmd = open(args.FILENAME, 'r', encoding='UTF-8')
         if args.output:
             md = open(args.output, 'w', encoding='UTF-8')
         else:
@@ -119,9 +119,14 @@ def main():
                 else:
                     print('Cannot exclude ', module, ' - no such module')
 
-        markup.MarkdownPP(input=mdpp, output=md, modules=modules)
+        # fix relative refs for INCLUDE issue
+        filedir =  os.path.dirname(args.FILENAME)
+        if filedir:
+            os.chdir(filedir)
 
-        mdpp.close()
+        markup.MarkdownPP(input=mmd, output=md, modules=modules)
+
+        mmd.close()
         md.close()
 
 

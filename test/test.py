@@ -1,14 +1,37 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#===============================================================================
+#
+# Copyright (c) 2020 <> All Rights Reserved
+#
+# Unit testing for MarkdownPP.
+# File: /c/Users/Administrator/git/markup-markdown/tests/test.py
+# Author: Hai Liang Wang
+# Date: 2022-04-19:07:09:33
+#
+#===============================================================================
+
 """
-test.py
--------
-
-Unit testing for MarkdownPP.
 
 """
-
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import unicode_literals
+
+__copyright__ = "Copyright (c) 2020 . All Rights Reserved"
+__author__ = "Hai Liang Wang"
+__date__ = "2022-04-19:07:09:33"
+
+import os, sys
+curdir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(curdir, os.pardir))
+
+if sys.version_info[0] < 3:
+    raise RuntimeError("Must be using Python 3")
+else:
+    unicode = str
+
+
 
 import unittest
 import os
@@ -37,27 +60,34 @@ class MarkdownPPTests(unittest.TestCase):
         self.assertEqual(output.read(), result)
 
     def test_include_glob(self):
-        input = StringIO('foobar\n!INCLUDE "datafiles/test_*.md"\n')
-        result = """foobar
+        input = StringIO('foobar\n!INCLUDE "datafiles/test_glob_*.m.md"\n')
+        expected_result = """foobar
 This is a test.
 Title
------
+=====
 
-### Subtitle
+Subtitle
+--------
 
-## Title
-### Subtitle
-#### Subsubtitle
+# Title
+## Subtitle
+### Subsubtitle
 """
 
         output = StringIO()
         MarkdownPP(input=input, modules=['include'], output=output)
 
         output.seek(0)
-        self.assertEqual(output.read(), result)
+        actural_result = output.read()
+        print(actural_result)
+
+        # with open("t.txt", "w") as o:
+        #     o.write(actural_result)
+
+        self.assertEqual(actural_result, expected_result)
 
     def test_empty_glob_should_not_lead_to_index_errors(self):
-        input = StringIO('!INCLUDE "datafiles/test_empty_glob.mdpp"\n')
+        input = StringIO('!INCLUDE "datafiles/test_empty_glob.m.md"\n')
         result = '# Test Header\n'
         output = StringIO()
         MarkdownPP(input=input, modules=['include'], output=output)
@@ -68,7 +98,7 @@ Title
         """Tests if the include works with recursive files and relative
         include path and globbing.
         """
-        input = StringIO('yay\n!INCLUDE "datafiles/test_include_recursive.mdpp"')
+        input = StringIO('yay\n!INCLUDE "datafiles/test_include_recursive.m.md"')
         result = """yay
 # Parent
 # File 1 Header
@@ -198,7 +228,7 @@ File 01.md
         with open('../readme.md', 'r') as md:
             result = md.read()
 
-        with open('../readme.mdpp', 'r') as mdpp:
+        with open('../readme.m.md', 'r') as mdpp:
             input = mdpp
 
             output = StringIO()
@@ -210,7 +240,7 @@ File 01.md
 
     def test_include_shift(self):
         # test shift=1
-        input = StringIO('!INCLUDE "datafiles/test_shift.mdpp", 1\n')
+        input = StringIO('!INCLUDE "datafiles/test_shift.m.md", 1\n')
         with open('datafiles/test_shift.md', 'r') as resfile:
             result = resfile.read()
 
@@ -230,7 +260,7 @@ File 01.md
         output1 = StringIO()
         MarkdownPP(input=input1, modules=['include'], output=output1)
 
-        input2 = StringIO('!INCLUDE "datafiles/test_shift.mdpp", 2\n')
+        input2 = StringIO('!INCLUDE "datafiles/test_shift.m.md", 2\n')
         output2 = StringIO()
         MarkdownPP(input=input2, modules=['include'], output=output2)
 
@@ -243,14 +273,19 @@ File 01.md
     def test_script(self):
         # test the script without arguments
         with NamedTemporaryFile(delete=False) as temp_outfile:
-            subprocess.call(['markdown-pp', 'datafiles/test_script.mdpp', '-o',
-                             temp_outfile.name])
+            # source_file = os.path.join(curdir, 'datafiles', 'test_script.m.md')
+            source_file = os.path.join('datafiles', 'test_script.m.md')
+            print("source_file", source_file)
+            subprocess.call(['markup', source_file, '-o',
+                             temp_outfile.name], shell=True, cwd= curdir)
 
-            with open('datafiles/test_script.txt', 'r') as target_outfile:
-                target_out = target_outfile.read()
+            tmp_file = os.path.join(curdir, os.pardir, "tmp", "test_script.txt")
+            with open(tmp_file, "w") as out:
+                temp_outfile.seek(0)
+                out.write(temp_outfile.read().decode('utf-8'))
 
-            temp_outfile.seek(0)
-            self.assertEqual(target_out, temp_outfile.read().decode('utf-8'))
+            with open(os.path.join(curdir, 'datafiles', 'test_script.txt'), 'r') as target_outfile, open(tmp_file, "r") as generated:
+                self.assertEqual(target_outfile.read(), generated.read())
 
     def test_include_code(self):
         input = StringIO('foo\n!INCLUDECODE "datafiles/test_include_code.py"\nbar')

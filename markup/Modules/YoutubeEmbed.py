@@ -52,7 +52,7 @@ class YoutubeEmbed(Module):
                     video_url = 'http://www.youtube.com/watch?v=%s' % url
                     processed_image_dir = os.path.join('images', 'youtube')
                     processed_image_path = os.path.join(processed_image_dir,
-                                                        '%s.png' % url)
+                                                        '%s.png' % url).replace("\\", "/")
 
                     # do we already have a screenshot?
                     if not os.path.isfile(processed_image_path):

@@ -8,6 +8,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import glob
+import os
 import re
 from os import path
 
@@ -22,7 +23,7 @@ class Include(Module):
     Target paths can be absolute or relative to the file containing the command
     """
 
-    # matches !INCLUDE directives in .mdpp files
+    # matches !INCLUDE directives in .m.md files
     includere = re.compile(r"^!INCLUDE\s+(?:\"([^\"]+)\"|'([^']+)')"
                            r"\s*(?:,\s*(\d+))?\s*$")
 
@@ -106,14 +107,16 @@ class Include(Module):
         # file name is caught in group 1 if it's written with double quotes,
         # or group 2 if written with single quotes
         fileglob = match.group(1) or match.group(2)
-
+        # print("include fileglob", fileglob)
         shift = int(match.group(3) or 0)
 
         result = []
+
         if pwd != "":
             fileglob = path.join(pwd, fileglob)
 
         files = sorted(glob.glob(fileglob))
+        # print("files", files)
         if len(files) > 0:
             for filename in files:
                 result += self.include_file(filename, pwd, shift)

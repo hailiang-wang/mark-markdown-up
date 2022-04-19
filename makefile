@@ -1,9 +1,9 @@
 .PHONY: build dev upload lint test clean
 
-readme.md: readme.mdpp
-	markdown-pp readme.mdpp -o readme.md
+README.md: README.m.md
+	markup README.m.md -o README.md
 
-build: readme.md
+build: README.md
 	python setup.py build
 
 dev:
@@ -16,7 +16,7 @@ lint:
 	flake8 --show-source MarkdownPP
 
 test: lint
-	markdown-pp readme.mdpp -o readme.test && diff -u readme.md readme.test
+	markup readme.m.md -o readme.test && diff -u readme.md readme.test
 	rm -f readme.test
 	cd test/ && python test.py
 

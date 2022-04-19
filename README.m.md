@@ -299,6 +299,8 @@ Generate file.
 ```
 cd ROOT_DIR
 markup README.m.md -o README.md
+# OR
+make README.md
 ```
 
 ### Install locally and watch

@@ -3,16 +3,10 @@
 
 from setuptools import setup
 
-from os import path
-import shutil
-
-# if path.isfile('README.md'):
-#     shutil.copyfile('README.md', 'README')
-
 setup(
     name='markup-markdown',
     description='Markup Markdown',
-    version='1.0.5',
+    version='1.0.6',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',
@@ -20,7 +14,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
@@ -37,5 +30,6 @@ setup(
     },
     install_requires=[
         'Watchdog >= 0.8.3',
+        'Pillow >= 9.1.0',
     ],
 )
