@@ -45,6 +45,9 @@ cn_digits = dict({
     "23":"二十三"
 })
 
+# figures
+matched_figure = lambda x: x.strip().startswith("![") and x.strip().endswith(")")
+matched_figure_caption = lambda x: x.strip()[x.strip().index("![") + 2:x.strip().index("]("):]
 
 class TableOfContents(Module):
     """
@@ -86,6 +89,26 @@ class TableOfContents(Module):
             return section
             
 
+    def resolve_figure_marker(self, lang):
+        if lang == "cn":
+            return "图 "
+        else:
+            return "Figure "
+
+
+    def resolve_figure_chatper(self, linenum, transforms):
+        figure_index_chapter = 0
+        for x in transforms:
+            if x.oper != "swap": continue
+            # print(x.linenum, x.oper, x.data)
+            if x.linenum < linenum:
+                y = x.data.strip()
+                if y.startswith("## "):
+                    figure_index_chapter = figure_index_chapter + 1
+            else:
+                break
+        return figure_index_chapter
+
     def transform(self, data):
         transforms = []
 
@@ -98,6 +121,9 @@ class TableOfContents(Module):
         toch1lang = "en"
 
         headers = {}
+        figures = {}
+
+        tables = {}
 
         infencedcodeblock = False
 
@@ -143,7 +169,7 @@ class TableOfContents(Module):
                 h1lang = match.group(2)
                 if h1lang is not None:
                     h1lang = h1lang.strip().lower()
-                    print("h1lang %s" %  h1lang)
+                    print("TOC h1 in lang: %s" %  h1lang)
                     if h1lang in ["en", "cn"]:
                         toch1lang = h1lang
                     else:
@@ -171,6 +197,13 @@ class TableOfContents(Module):
 
                 if tocfound:
                     lowestdepth = min(depth, lowestdepth)
+
+            # figures
+            if matched_figure(line):
+                figure_cap = matched_figure_caption(line)
+                # print("figure_cap", figure_cap, depth, linenum)
+                figures[linenum] = ("", figure_cap) # set index as emtpy string, resolve later.
+
 
             lastline = line
             linenum += 1
@@ -235,16 +268,39 @@ class TableOfContents(Module):
             short = TableOfContents.clean_html_string(short)
             title = TableOfContents.clean_html_string(title).strip()
 
+            # top texts in doc as Toc
             tocdata += ("%s [%s](#%s)  \n" %
-                        (self.fix_section_with_lang(section, h1lang), TableOfContents.clean_title(title), short))
+                        (self.fix_section_with_lang(section, toch1lang), TableOfContents.clean_title(title), short))
 
+            # each section header in Doc
             transforms.append(Transform(linenum, "swap",
-                              data[linenum].replace(title, self.fix_section_with_lang(section, h1lang) + title)))
+                              data[linenum].replace(title, self.fix_section_with_lang(section, toch1lang) + title)))
+
+            # create shortcut link
             transforms.append(Transform(linenum, "prepend",
                               "<a name=\"%s\"></a>\n\n" % short))
 
         # create transforms for the !TOC markers
         for linenum in toclines:
             transforms.append(Transform(linenum, "swap", tocdata))
+
+        # for x in transforms:
+        #     print("transform --> %s %s %s" % (x.linenum, x.oper, x.data))
+
+        figure_index_num = 1
+        figure_index_pre = 0
+
+        # create caption for figures
+        for linenum in figures.keys():
+            figure_index_curr = self.resolve_figure_chatper(linenum, transforms)
+            if figure_index_curr != figure_index_pre:
+                figure_index_num = 1
+                figure_index_pre = figure_index_curr
+            else:
+                figure_index_num = figure_index_num + 1
+
+            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" %  list(figures[linenum])[1], "![%s %s %s](" %  (self.resolve_figure_marker(toch1lang),
+                                                                                                                                         "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (figure_index_num - 1),
+                                                                                                                                         list(figures[linenum])[1]), 1)))
 
         return transforms

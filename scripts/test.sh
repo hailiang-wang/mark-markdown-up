@@ -55,3 +55,4 @@ t test_include_code_lang
 t test_include_code_lang_with_multiline
 t test_file
 t test_script
+t test_toc_table_figure

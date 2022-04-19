@@ -306,6 +306,26 @@ bar"""
         output.seek(0)
         self.assertEqual(output.read(), result)
 
+
+    def test_toc_table_figure(self):
+        # test the script without arguments
+        with NamedTemporaryFile(delete=False) as temp_outfile:
+            # source_file = os.path.join(curdir, 'datafiles', 'test_script.m.md')
+            source_file = os.path.join('datafiles', 'test_toc_table_figure.m.md')
+            # print("source_file", source_file)
+            subprocess.call(['markup', source_file, '-o',
+                             temp_outfile.name], shell=True, cwd= curdir)
+
+            tmp_file = os.path.join(curdir, os.pardir, "tmp", "test_toc_table_figure.md")
+            with open(tmp_file, "w", encoding="UTF-8") as out:
+                temp_outfile.seek(0)
+                out.write(temp_outfile.read().decode('utf-8'))
+
+            self.assertTrue(True)
+
+            # with open(os.path.join(curdir, 'datafiles', 'test_script.txt'), 'r') as target_outfile, open(tmp_file, "r") as generated:
+            #     self.assertEqual(target_outfile.read(), generated.read())
+
     def test_include_code_lines(self):
         input = StringIO('foo\n!INCLUDECODE "datafiles/test_include_code_2.py" (python), 1:10\nbar')
         result = """foo
