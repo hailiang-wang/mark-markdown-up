@@ -49,6 +49,10 @@ cn_digits = dict({
 matched_figure = lambda x: x.strip().startswith("![") and x.strip().endswith(")")
 matched_figure_caption = lambda x: x.strip()[x.strip().index("![") + 2:x.strip().index("]("):]
 
+# tables
+matched_table = lambda x: x.strip().startswith("<mkc:table>") and x.strip().endswith("</mkc:table>")
+matched_table_caption = lambda x: x.strip()[11:x.strip().index("</mkc:table>"):]
+
 class TableOfContents(Module):
     """
     Module for auto-generating a table of contents based on the Markdown
@@ -95,8 +99,13 @@ class TableOfContents(Module):
         else:
             return "Figure "
 
+    def resolve_table_marker(self, lang):
+        if lang == "cn":
+            return "表 "
+        else:
+            return "Table "
 
-    def resolve_figure_chatper(self, linenum, transforms):
+    def resolve_chatper_index(self, linenum, transforms):
         figure_index_chapter = 0
         for x in transforms:
             if x.oper != "swap": continue
@@ -108,6 +117,9 @@ class TableOfContents(Module):
             else:
                 break
         return figure_index_chapter
+
+
+
 
     def transform(self, data):
         transforms = []
@@ -204,6 +216,11 @@ class TableOfContents(Module):
                 # print("figure_cap", figure_cap, depth, linenum)
                 figures[linenum] = ("", figure_cap) # set index as emtpy string, resolve later.
 
+            # tables
+            if matched_table(line):
+                table_cap = matched_table_caption(line)
+                # print("table_cap", table_cap, depth, linenum)
+                tables[linenum] = ("", table_cap) # set index as emtpy string, resolve later.
 
             lastline = line
             linenum += 1
@@ -287,12 +304,11 @@ class TableOfContents(Module):
         # for x in transforms:
         #     print("transform --> %s %s %s" % (x.linenum, x.oper, x.data))
 
+        # create caption for figures
         figure_index_num = 1
         figure_index_pre = 0
-
-        # create caption for figures
         for linenum in figures.keys():
-            figure_index_curr = self.resolve_figure_chatper(linenum, transforms)
+            figure_index_curr = self.resolve_chatper_index(linenum, transforms)
             if figure_index_curr != figure_index_pre:
                 figure_index_num = 1
                 figure_index_pre = figure_index_curr
@@ -302,5 +318,22 @@ class TableOfContents(Module):
             transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" %  list(figures[linenum])[1], "![%s %s %s](" %  (self.resolve_figure_marker(toch1lang),
                                                                                                                                          "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (figure_index_num - 1),
                                                                                                                                          list(figures[linenum])[1]), 1)))
+
+        # create caption for tables
+        table_index_num = 1
+        table_index_pre = 0
+        for linenum in tables.keys():
+            table_index_curr = self.resolve_chatper_index(linenum, transforms)
+            if table_index_curr != table_index_pre:
+                table_index_num = 1
+                table_index_pre = table_index_curr
+            else:
+                table_index_num = table_index_num + 1
+
+            transforms.append(Transform(linenum, "swap", "Table: %s %s %s" % (
+                self.resolve_table_marker(toch1lang),
+                "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (table_index_num - 1),
+                list(tables[linenum])[1]
+            )))
 
         return transforms

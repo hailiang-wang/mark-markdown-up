@@ -58,6 +58,13 @@ To watch directory and subdirectories:
 
 Where PATH is a directory path, e.g. `.`, `/home/user`.
 
+To generate docx file, use the [specified file as a style reference](https://pandoc.org/MANUAL.html) in producing a docx or ODT file.
+
+```
+markup foo.m.md -o index.md # well defined index.md for pandoc with Toc, Captions, etc.
+pandoc --wrap=none --reference-doc=styles/refs.docx -i index.md -o file.docx
+```
+
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
@@ -211,6 +218,23 @@ heading tag that Markdown would generate.
 ```
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
+
+
+```
+![image catption](URL)
+```
+
+Image caption is generated as well with ToC prefix.
+
+```
+
+| foo | bar |
+| --- | --- |
+| table1 | tabtl2 |
+<mkc:table>xx foo s22 中文</mkc:table>
+```
+
+Table caption is generated with marker `<mkc:table>` under the table.
 
 ### Reference
 

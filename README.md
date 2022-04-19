@@ -85,6 +85,13 @@ To watch directory and subdirectories:
 
 Where PATH is a directory path, e.g. `.`, `/home/user`.
 
+To generate docx file, use the [specified file as a style reference](https://pandoc.org/MANUAL.html) in producing a docx or ODT file.
+
+```
+markup foo.m.md -o index.md # well defined index.md for pandoc with Toc, Captions, etc.
+pandoc --wrap=none --reference-doc=styles/refs.docx -i index.md -o file.docx
+```
+
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
@@ -247,6 +254,22 @@ heading tag that Markdown would generate.
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
 
+
+```
+![Figure  2.1 image catption](URL)
+```
+
+Image caption is generated as well with ToC prefix.
+
+```
+
+| foo | bar |
+| --- | --- |
+| table1 | tabtl2 |
+Table: Table  2.1 xx foo s22 中文```
+
+Table caption is generated with marker `<mkc:table>` under the table.
+
 <a name="reference"></a>
 
 ### 0.2.5\. Reference
@@ -267,7 +290,7 @@ using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
 
 For example,
 
-![\displaystyle \int x^2 = \frac{x^3}{3} + C](<html>
+![Figure  2.2 \displaystyle \int x^2 = \frac{x^3}{3} + C](<html>
 <head><title>405 Not Allowed</title></head>
 <body bgcolor="white">
 <center><h1>405 Not Allowed</h1></center>
@@ -277,7 +300,7 @@ For example,
 
 becomes
 
-![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
+![Figure  2.3 \displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
 
 <a name="youtubeembeds"></a>
 
