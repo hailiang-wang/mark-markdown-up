@@ -330,7 +330,7 @@ class TableOfContents(Module):
             else:
                 table_index_num = table_index_num + 1
 
-            transforms.append(Transform(linenum, "swap", "Table: %s %s %s" % (
+            transforms.append(Transform(linenum, "swap", "Table: %s %s %s\n" % (
                 self.resolve_table_marker(toch1lang),
                 "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (table_index_num - 1),
                 list(tables[linenum])[1]

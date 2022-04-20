@@ -218,23 +218,20 @@ heading tag that Markdown would generate.
 ```
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
-
+Image caption is generated as well with ToC prefix.
 
 ```
 ![image catption](URL)
 ```
 
-Image caption is generated as well with ToC prefix.
+Table caption is generated with marker `<mkc:table>xxx</mkc:table>` under the table.
 
 ```
-
 | foo | bar |
 | --- | --- |
 | table1 | tabtl2 |
 <mkc:table>xx foo s22 中文</mkc:table>
 ```
-
-Table caption is generated with marker `<mkc:table>` under the table.
 
 ### Reference
 
@@ -244,6 +241,14 @@ inserted wherever the preprocessor finds a line beginning with `!REF`. The
 generated reference list follows the same alternate linking method to ensure
 consistency in your document, but the link need not be referenced anywhere in
 the document to be included in the list.
+
+```
+Document to be included [in the list][Reference11]：
+
+[Reference11]: <https://github.com/hailiang-wang/markup-markdown#reference> "Similarly, MarkdownPP can generate a list of reference"
+
+!REF
+```
 
 ### LaTeX Rendering
 

@@ -119,7 +119,6 @@ World!
 
 File `index.m.md`:
 
-
 Compiling `index.m.md` with the Include module will produce the following:
 
 Hello
@@ -253,22 +252,20 @@ heading tag that Markdown would generate.
 ```
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
-
+Image caption is generated as well with ToC prefix.
 
 ```
 ![Figure  2.1 image catption](URL)
 ```
 
-Image caption is generated as well with ToC prefix.
+Table caption is generated with marker `<mkc:table>xxx</mkc:table>` under the table.
 
 ```
-
 | foo | bar |
 | --- | --- |
 | table1 | tabtl2 |
-Table: Table  2.1 xx foo s22 中文```
-
-Table caption is generated with marker `<mkc:table>` under the table.
+<mkc:table>xx foo s22 中文</mkc:table>
+```
 
 <a name="reference"></a>
 
@@ -280,6 +277,17 @@ inserted wherever the preprocessor finds a line beginning with `!REF`. The
 generated reference list follows the same alternate linking method to ensure
 consistency in your document, but the link need not be referenced anywhere in
 the document to be included in the list.
+
+```
+Document to be included [in the list][Reference11]：
+
+[Reference11]: <https://github.com/hailiang-wang/markup-markdown#reference> "Similarly, MarkdownPP can generate a list of reference"
+
+* [Similarly, MarkdownPP can generate a list of reference][Reference11]
+* [GitHub][github]
+* [GitHub][github]
+* [Markdown Preprocessor on GitHub][repo]
+```
 
 <a name="latexrendering"></a>
 
@@ -296,7 +304,6 @@ For example,
 <center><h1>405 Not Allowed</h1></center>
 </body>
 </html> "\displaystyle \int x^2 = \frac{x^3}{3} + C")
-
 
 becomes
 
@@ -367,9 +374,10 @@ Example file.m.md:
 
 ## 1.2\. Header 2
 
-*	[GitHub][github]
-*	[GitHub][github]
-*	[Markdown Preprocessor on GitHub][repo]
+* [Similarly, MarkdownPP can generate a list of reference][Reference11]
+* [GitHub][github]
+* [GitHub][github]
+* [Markdown Preprocessor on GitHub][repo]
 
 [github]: http://github.com "GitHub"
 
@@ -401,7 +409,7 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
 ## 2.2\. Header 2
 
-- [GitHub][github]
+* [GitHub][github]
 
 [github]: http://github.com "GitHub"
 
@@ -446,8 +454,8 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 
 ## 3.1\. Konwn Issues
 
-- file encoding only support UTF-8
-- TOC not support punctuations
+* file encoding only support UTF-8
+* TOC not support punctuations
 
 <a name="support"></a>
 
@@ -462,8 +470,9 @@ existing modules, are also appreciated.
 
 ## 3.3\. References
 
-*	[GitHub][github]
-*	[GitHub][github]
-*	[Markdown Preprocessor on GitHub][repo]
+* [Similarly, MarkdownPP can generate a list of reference][Reference11]
+* [GitHub][github]
+* [GitHub][github]
+* [Markdown Preprocessor on GitHub][repo]
 
 [repo]: http://github.com/jreese/markdown-pp "Markdown Preprocessor on GitHub"
