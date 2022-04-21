@@ -1,7 +1,5 @@
 # Markup-Markdown
 
-<!-- Readme is updated with `markup README.m.md -o README.md`, modify README.m.md in first place. -->
-
 Stack up markdown files with `!INCLUDE` directives.
 
 Previous, Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
@@ -27,38 +25,11 @@ and process that document when viewing the repository.
 
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
-0.1\.  [Installation and Usage](#installationandusage)  
-0.2\.  [Modules](#modules)  
-0.2.1\.  [Includes](#includes)  
-0.2.2\.  [IncludeURLs](#includeurls)  
-0.2.3\.  [IncludeCode](#includecode)  
-0.2.4\.  [Table of Contents](#tableofcontents)  
-0.2.5\.  [Reference](#reference)  
-0.2.6\.  [LaTeX Rendering](#latexrendering)  
-0.2.7\.  [YouTube Embeds](#youtubeembeds)  
-0.3\.  [Examples](#examples)  
-1\.  [Document Title](#documenttitle)  
-1.1\.  [Header 1](#header1)  
-1.1.1\.  [Header 1.a](#header1.a)  
-1.2\.  [Header 2](#header2)  
-2\.  [Document Title](#documenttitle-1)  
-2.1\.  [Header 1](#header1-1)  
-2.1.1\.  [Header 1.a](#header1.a-1)  
-2.2\.  [Header 2](#header2-1)  
-2.3\.  [Contribute](#contribute)  
-2.3.1\.  [Publish new readme](#publishnewreadme)  
-3\.  [OR](#or)  
-3.0.1\.  [Install locally and watch](#installlocallyandwatch)  
-3.0.2\.  [Publish new version](#publishnewversion)  
-3.1\.  [Konwn Issues](#konwnissues)  
-3.2\.  [Support](#support)  
-3.3\.  [References](#references)  
+## Installation and Usage
 
-<a name="installationandusage"></a>
-
-## 0.1\. Installation and Usage
-
-    pip install markup-markdown
+```
+pip install markup-markdown
+```
 
 To download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown)
 
@@ -69,7 +40,9 @@ Python script that acts as a simple command line interface to the module,
 Assuming you have a file named `foo.m.md`, you can generate the preprocessed
 file `foo.md` by running the following command:
 
-    markup foo.m.md -o foo.md
+```
+markup foo.m.md -o foo.md
+```
 
 If you do not specify an output file name, the results will be printed to
 stdout, enabling them to be piped to another command.
@@ -77,11 +50,15 @@ stdout, enabling them to be piped to another command.
 By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
-    markup foo.m.md -o foo.md -e latexrender,youtubembed
+```
+markup foo.m.md -o foo.md -e latexrender,youtubembed
+```
 
 To watch directory and subdirectories:
 
-    markup -w PATH
+```
+markup -w PATH
+```
 
 Where PATH is a directory path, e.g. `.`, `/home/user`.
 
@@ -89,21 +66,19 @@ To generate docx file, use the [specified file as a style reference](https://pan
 
 ```
 markup foo.m.md -o index.md # well defined index.md for pandoc with Toc, Captions, etc.
-pandoc --wrap=none --reference-doc=styles/refs.docx -i index.md -o file.docx
+pandoc --from markdown+footnotes --wrap=none --reference-doc=styles/refs.docx -i index.md -o file.docx
 ```
 
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
-    markup --help
+```
+markup --help
+```
 
-<a name="modules"></a>
+## Modules
 
-## 0.2\. Modules
-
-<a name="includes"></a>
-
-### 0.2.1\. Includes
+### Includes
 
 In order to facilitate large documentation projects, MarkdownPP has an Include
 module that will replace a line of the form `!INCLUDE "path/to/filename"` with
@@ -111,44 +86,59 @@ the contents of that file, recursively including other files as needed.
 
 File `foo.m.md`:
 
+```
 Hello
+```
 
 File `bar.m.md`:
 
+```
 World!
+```
 
 File `index.m.md`:
 
+```
+!INCLUDE "foo.m.md"
+!INCLUDE "bar.m.md"
+```
+
 Compiling `index.m.md` with the Include module will produce the following:
 
+```
 Hello
 World!
+```
 
 Furthermore, the Include module supports the shifting of headers in the
 file to be included. For example,
 
 File `foo.m.md`:
 
-    # Foo
-    ## Bar
+```
+# Foo
+## Bar
+```
 
 File `index.m.md`:
 
-    # Title
-    ## Subtitle
-    !INCLUDE "foo.m.md", 2
+```
+# Title
+## Subtitle
+!INCLUDE "foo.m.md", 2
+```
 
 Compiling `index.m.md` with the Include module and using `2` as shift
 parameter will yield:
 
-    # Title
-    ## Subtitle
-    ### Foo
-    #### Bar
+```
+# Title
+## Subtitle
+### Foo
+#### Bar
+```
 
-<a name="includeurls"></a>
-
-### 0.2.2\. IncludeURLs
+### IncludeURLs
 
 Facilitates the inclusion of remote files, such as files kept in a subversion
 or GitHub repository. Like Include, the IncludeURL module can replace a line of
@@ -162,44 +152,54 @@ ambiguity as to where the file would be located.
 
 Remote file `http://your.domain/foo.m.md`:
 
-    Hello
+```
+Hello
+```
 
 Remote file `http://your.domain/bar.m.md`:
 
-    Remote World!
+```
+Remote World!
+```
 
 Local file `index.m.md`:
 
-    !INCLUDEURL "http://your.domain/foo.m.md"
-    !INCLUDEURL "http://your.domain/bar.m.md"
+```
+!INCLUDEURL "http://your.domain/foo.m.md"
+!INCLUDEURL "http://your.domain/bar.m.md"
+```
 
 Compiling `index.m.md` with the IncludeURL module will produce the following:
 
-    Hello
-    Remote World!
+```
+Hello
+Remote World!
+```
 
-<a name="includecode"></a>
-
-### 0.2.3\. IncludeCode
+### IncludeCode
 
 Facilitates the inclusion of local code files. GFM fences will be added
 around the included code.
 
 Local code file `hello.py`:
 
+```
     def main():
         print "Hello World"
 
 
     if __name__ == '__main__':
         main()
+```
 
 Local file `index.m.md`:
 
-    # My Code
+```
+# My Code
 
-    !INCLUDECODE "hello.py"
-    Easy as that!
+!INCLUDECODE "hello.py"
+Easy as that!
+```
 
 Compiling `index.m.md` with IncludeCode module wil produce the following:
 
@@ -236,9 +236,7 @@ Compiling `index.m.md` with IncludeCode module will produce the following:
     ```
     Easy as that!
 
-<a name="tableofcontents"></a>
-
-### 0.2.4\. Table of Contents
+### Table of Contents
 
 The biggest feature provided by MarkdownPP is the generation of a table of
 contents for a document, with each item linked to the appropriate section of the
@@ -255,7 +253,7 @@ Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `
 Image caption is generated as well with ToC prefix.
 
 ```
-![Figure  2.1 image catption](URL)
+![image catption](URL)
 ```
 
 Table caption is generated with marker `<mkc:table>xxx</mkc:table>` under the table.
@@ -267,9 +265,7 @@ Table caption is generated with marker `<mkc:table>xxx</mkc:table>` under the ta
 <mkc:table>xx foo s22 中文</mkc:table>
 ```
 
-<a name="reference"></a>
-
-### 0.2.5\. Reference
+### Reference
 
 Similarly, MarkdownPP can generate a list of references that follow Markdown's
 alternate link syntax, eg `[name]: <url> "Title"`. A list of links will be
@@ -283,35 +279,33 @@ Document to be included [in the list][Reference11]：
 
 [Reference11]: <https://github.com/hailiang-wang/markup-markdown#reference> "Similarly, MarkdownPP can generate a list of reference"
 
-* [Similarly, MarkdownPP can generate a list of reference][Reference11]
-* [GitHub][github]
-* [GitHub][github]
-* [Markdown Preprocessor on GitHub][repo]
+!REF
 ```
 
-<a name="latexrendering"></a>
+### Footnote
 
-### 0.2.6\. LaTeX Rendering
+```
+FOO[^f1] Bar
+
+[^f1]: This is a footnote
+```
+
+### LaTeX Rendering
 
 Lines and blocks of lines beginning and ending with $ are rendered as LaTeX,
 using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
 
 For example,
 
-![Figure  2.2 \displaystyle \int x^2 = \frac{x^3}{3} + C](<html>
-<head><title>405 Not Allowed</title></head>
-<body bgcolor="white">
-<center><h1>405 Not Allowed</h1></center>
-</body>
-</html> "\displaystyle \int x^2 = \frac{x^3}{3} + C")
+```
+$\displaystyle \int x^2 = \frac{x^3}{3} + C$
+```
 
 becomes
 
-![Figure  2.3 \displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
+![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
 
-<a name="youtubeembeds"></a>
-
-### 0.2.7\. YouTube Embeds
+### YouTube Embeds
 
 As GitHub-flavored Markdown does not allow embed tags, each line of the form
 `!VIDEO "[youtube url]"` is converted into a screenshot that links to the video,
@@ -319,73 +313,35 @@ roughly simulating the look of an embedded video player.
 
 For example,
 
-    !VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
+```
+!VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
+```
 
 becomes
 
-[![Link to Youtube video](images/youtube/7aEYoP5-duY.png)](http://www.youtube.com/watch?v=7aEYoP5-duY)
+!VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
 
-<a name="examples"></a>
-
-## 0.3\. Examples
+## Examples
 
 Example file.m.md:
 
-<a name="documenttitle"></a>
+# Document Title
 
-# 1\. Document Title
+!TOC
 
-0.1\.  [Installation and Usage](#installationandusage)  
-0.2\.  [Modules](#modules)  
-0.2.1\.  [Includes](#includes)  
-0.2.2\.  [IncludeURLs](#includeurls)  
-0.2.3\.  [IncludeCode](#includecode)  
-0.2.4\.  [Table of Contents](#tableofcontents)  
-0.2.5\.  [Reference](#reference)  
-0.2.6\.  [LaTeX Rendering](#latexrendering)  
-0.2.7\.  [YouTube Embeds](#youtubeembeds)  
-0.3\.  [Examples](#examples)  
-1\.  [Document Title](#documenttitle)  
-1.1\.  [Header 1](#header1)  
-1.1.1\.  [Header 1.a](#header1.a)  
-1.2\.  [Header 2](#header2)  
-2\.  [Document Title](#documenttitle-1)  
-2.1\.  [Header 1](#header1-1)  
-2.1.1\.  [Header 1.a](#header1.a-1)  
-2.2\.  [Header 2](#header2-1)  
-2.3\.  [Contribute](#contribute)  
-2.3.1\.  [Publish new readme](#publishnewreadme)  
-3\.  [OR](#or)  
-3.0.1\.  [Install locally and watch](#installlocallyandwatch)  
-3.0.2\.  [Publish new version](#publishnewversion)  
-3.1\.  [Konwn Issues](#konwnissues)  
-3.2\.  [Support](#support)  
-3.3\.  [References](#references)  
+## Header 1
 
-<a name="header1"></a>
+### Header 1.a
 
-## 1.1\. Header 1
+## Header 2
 
-<a name="header1.a"></a>
-
-### 1.1.1\. Header 1.a
-
-<a name="header2"></a>
-
-## 1.2\. Header 2
-
-* [Similarly, MarkdownPP can generate a list of reference][Reference11]
-* [GitHub][github]
-* [GitHub][github]
-* [Markdown Preprocessor on GitHub][repo]
+!REF
 
 [github]: http://github.com "GitHub"
 
 The preprocessor would generate the following Markdown-ready document file.md:
 
-<a name="documenttitle-1"></a>
-
-# 2\. Document Title
+# Document Title
 
 1\. [Header 1](#header1)
 1.1\. [Header 1.a](#header1a)
@@ -393,48 +349,23 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
 <a name="header1"></a>
 
-<a name="header1-1"></a>
-
-## 2.1\. Header 1
+## Header 1
 
 <a name="header1a"></a>
 
-<a name="header1.a-1"></a>
-
-### 2.1.1\. Header 1.a
+### Header 1.a
 
 <a name="header2"></a>
 
-<a name="header2-1"></a>
+## Header 2
 
-## 2.2\. Header 2
-
-* [GitHub][github]
+- [GitHub][github]
 
 [github]: http://github.com "GitHub"
 
-<a name="contribute"></a>
+## Contribute
 
-## 2.3\. Contribute
-
-<a name="publishnewreadme"></a>
-
-### 2.3.1\. Publish new readme
-
-Generate file.
-
-```
-cd ROOT_DIR
-markup README.m.md -o README.md
-<a name="or"></a>
-
-# 3\. OR
-make README.md
-```
-
-<a name="installlocallyandwatch"></a>
-
-### 3.0.1\. Install locally and watch
+### Install locally and watch
 
 Watch dirs.
 
@@ -442,37 +373,26 @@ Watch dirs.
 python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 ```
 
-<a name="publishnewversion"></a>
-
-### 3.0.2\. Publish new version
+### Publish new version
 
 ```
 ./scripts/publish.sh
 ```
 
-<a name="konwnissues"></a>
+## Konwn Issues
 
-## 3.1\. Konwn Issues
+- file encoding only support UTF-8
+- TOC not support punctuations
 
-* file encoding only support UTF-8
-* TOC not support punctuations
-
-<a name="support"></a>
-
-## 3.2\. Support
+## Support
 
 If you find any problems with MarkdownPP, or have any feature requests, please
 report them to [GitHub][repo], and I will respond when possible. Code
 contributions are _always_ welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
 
-<a name="references"></a>
+## References
 
-## 3.3\. References
-
-* [Similarly, MarkdownPP can generate a list of reference][Reference11]
-* [GitHub][github]
-* [GitHub][github]
-* [Markdown Preprocessor on GitHub][repo]
+!REF
 
 [repo]: http://github.com/jreese/markdown-pp "Markdown Preprocessor on GitHub"
