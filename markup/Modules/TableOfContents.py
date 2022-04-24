@@ -138,6 +138,7 @@ class TableOfContents(Module):
         tables = {}
 
         infencedcodeblock = False
+        infencedcodecount = 0
 
         # iterate through the document looking for markers and headers
         linenum = 0
@@ -156,17 +157,20 @@ class TableOfContents(Module):
             </w:p>
             ```
             '''
+
+            # Fenced code blocks (Github-flavored markdown)
+            counted = line.count("```")
+            # print("infencedcodecount", infencedcodecount, counted, line)
+            infencedcodecount = infencedcodecount + counted
+            # print("infencedcodecount", infencedcodecount)
+            if (infencedcodecount % 2) == 0 :
+                infencedcodeblock = False
+            else:
+                infencedcodeblock = True
+
             if striped.startswith("```") or striped.startswith("<w:") or striped.startswith("</w:"):
                 linenum = linenum + 1
                 continue
-
-            # Fenced code blocks (Github-flavored markdown)
-            match = fencedcodere.search(line)
-            if match:
-                if infencedcodeblock:
-                    infencedcodeblock = False
-                else:
-                    infencedcodeblock = True
 
             # !TOC markers
             match = tocre.search(line)
@@ -178,10 +182,12 @@ class TableOfContents(Module):
                     tocdepth = max(depth, tocdepth)
                 toclines.append(linenum)
 
+                print("[INFO] TOC is turn on, max tocdepth %d" %  tocdepth)
+
                 h1lang = match.group(2)
                 if h1lang is not None:
                     h1lang = h1lang.strip().lower()
-                    print("TOC h1 in lang: %s" %  h1lang)
+                    print("[INFO] TOC generate h1 in lang %s" %  h1lang)
                     if h1lang in ["en", "cn"]:
                         toch1lang = h1lang
                     else:
@@ -219,7 +225,6 @@ class TableOfContents(Module):
             # tables
             if matched_table(line):
                 table_cap = matched_table_caption(line)
-                # print("table_cap", table_cap, depth, linenum)
                 tables[linenum] = ("", table_cap) # set index as emtpy string, resolve later.
 
             lastline = line
@@ -323,17 +328,19 @@ class TableOfContents(Module):
         table_index_num = 1
         table_index_pre = 0
         for linenum in tables.keys():
+            # print("fff linenum", linenum)
             table_index_curr = self.resolve_chatper_index(linenum, transforms)
+            # print("table_index_curr", table_index_curr, ", table_index_pre", table_index_pre)
             if table_index_curr != table_index_pre:
                 table_index_num = 1
                 table_index_pre = table_index_curr
             else:
                 table_index_num = table_index_num + 1
 
-            transforms.append(Transform(linenum, "swap", "Table: %s %s %s\n" % (
-                self.resolve_table_marker(toch1lang),
+            swap_content = (self.resolve_table_marker(toch1lang),
                 "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (table_index_num - 1),
-                list(tables[linenum])[1]
-            )))
+                list(tables[linenum])[1])
+            # print("SWAP TABLE", swap_content)
+            transforms.append(Transform(linenum, "swap", "Table: %s %s %s\n" % swap_content))
 
         return transforms

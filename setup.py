@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='markup-markdown',
     description='Markup Markdown',
-    version='1.0.7',
+    version='1.0.8',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markdown-pp',
