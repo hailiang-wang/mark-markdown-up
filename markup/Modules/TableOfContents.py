@@ -42,7 +42,33 @@ cn_digits = dict({
     "20":"二十",
     "21":"二十一",
     "22":"二十二",
-    "23":"二十三"
+    "23":"二十三",
+    "24":"二十四",
+    "25":"二十五",
+    "26":"二十六",
+    "27":"二十七",
+    "28":"二十八",
+    "29":"二十九",
+    "30":"三十",
+    "31":"三十一",
+    "32":"三十二",
+    "33":"三十三",
+    "34":"三十四",
+    "35":"三十五",
+    "36":"三十六",
+    "37":"三十七",
+    "38":"三十八",
+    "39":"三十九",
+    "40":"四十",
+    "41":"四十一",
+    "42":"四十二",
+    "43":"四十三",
+    "44":"四十四",
+    "45":"四十五",
+    "46":"四十六",
+    "47":"四十七",
+    "48":"四十八",
+    "49":"四十九",
 })
 
 # figures
@@ -50,8 +76,8 @@ matched_figure = lambda x: x.strip().startswith("![") and x.strip().endswith(")"
 matched_figure_caption = lambda x: x.strip()[x.strip().index("![") + 2:x.strip().index("]("):]
 
 # tables
-matched_table = lambda x: x.strip().startswith("<mkc:table>") and x.strip().endswith("</mkc:table>")
-matched_table_caption = lambda x: x.strip()[11:x.strip().index("</mkc:table>"):]
+matched_table = lambda x: x.strip().startswith("<!-- markup:table-caption") and x.strip().endswith("-->")
+matched_table_caption = lambda x: x.strip()[26:len(x.strip()) - 3:]
 
 class TableOfContents(Module):
     """
@@ -117,9 +143,6 @@ class TableOfContents(Module):
             else:
                 break
         return figure_index_chapter
-
-
-
 
     def transform(self, data):
         transforms = []
@@ -320,7 +343,7 @@ class TableOfContents(Module):
             else:
                 figure_index_num = figure_index_num + 1
 
-            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" %  list(figures[linenum])[1], "![%s %s %s](" %  (self.resolve_figure_marker(toch1lang),
+            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" %  list(figures[linenum])[1], "![%s%s %s](" %  (self.resolve_figure_marker(toch1lang),
                                                                                                                                          "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (figure_index_num - 1),
                                                                                                                                          list(figures[linenum])[1]), 1)))
 
@@ -341,6 +364,6 @@ class TableOfContents(Module):
                 "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (table_index_num - 1),
                 list(tables[linenum])[1])
             # print("SWAP TABLE", swap_content)
-            transforms.append(Transform(linenum, "swap", "Table: %s %s %s\n" % swap_content))
+            transforms.append(Transform(linenum, "swap", "Table: %s%s %s\n" % swap_content))
 
         return transforms

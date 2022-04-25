@@ -5,11 +5,11 @@ from setuptools import setup
 
 setup(
     name='markup-markdown',
-    description='Markup Markdown',
+    description='Markup Markdown, Stack up markdown files with `!INCLUDE` directives.',
     version='1.0.9',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
-    url='https://github.com/hailiang-wang/markdown-pp',
+    url='https://github.com/hailiang-wang/markup-markdown',
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

@@ -224,14 +224,12 @@ Image caption is generated as well with ToC prefix.
 ![image catption](URL)
 ```
 
-Table caption is generated with marker `<mkc:table>xxx</mkc:table>` under the table.
+Table caption is generated with marker `<!-- markup:table-caption xx foo s22 中文 -->` under the table.
 
-```
 | foo | bar |
 | --- | --- |
 | table1 | tabtl2 |
-<mkc:table>xx foo s22 中文</mkc:table>
-```
+<!-- markup:table-caption xx foo s22 中文-->
 
 ### Reference
 
