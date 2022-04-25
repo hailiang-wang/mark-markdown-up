@@ -363,3 +363,9 @@ existing modules, are also appreciated.
 !REF
 
 [repo]: http://github.com/jreese/markdown-pp "Markdown Preprocessor on GitHub"
+
+<!-- markup:markdown-end -->
+
+## FOO BAR
+
+any thing you don't want to put into the generated md.

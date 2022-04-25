@@ -138,6 +138,12 @@ parameter will yield:
 #### Bar
 ```
 
+Bypass lines in the included file, add following line in the file.
+
+```
+<!-- markup:markdown-end -->
+```
+
 ### IncludeURLs
 
 Facilitates the inclusion of remote files, such as files kept in a subversion
