@@ -27,11 +27,13 @@ and process that document when viewing the repository.
 
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
-!TOC
+!TOC 5 cn
 
 ## Installation and Usage
 
+```
     pip install markup-markdown
+```
 
 To download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown)
 
@@ -39,10 +41,12 @@ There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
 `markup`.
 
-Assuming you have a file named `foo.m.md`, you can generate the preprocessed
-file `foo.md` by running the following command:
+<!-- markup:skip-line -->Assuming you have a file named `foo.m.md`, you can generate the preprocessed
+file `foo.md` by running the following command: <!-- markup:skip-line -->
 
+```
     markup foo.m.md -o foo.md
+```
 
 If you do not specify an output file name, the results will be printed to
 stdout, enabling them to be piped to another command.
@@ -50,11 +54,15 @@ stdout, enabling them to be piped to another command.
 By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
+```
     markup foo.m.md -o foo.md -e latexrender,youtubembed
+```
 
 To watch directory and subdirectories:
 
+```
     markup -w PATH
+```
 
 Where PATH is a directory path, e.g. `.`, `/home/user`.
 
@@ -68,7 +76,9 @@ pandoc --wrap=none --reference-doc=styles/refs.docx -i index.md -o file.docx
 To see usage instructions, including a list of enabled modules, supply the
 -h or --help arguments:
 
+```
     markup --help
+```
 
 ## Modules
 
@@ -80,43 +90,57 @@ the contents of that file, recursively including other files as needed.
 
 File `foo.m.md`:
 
+```
 Hello
+```
 
 File `bar.m.md`:
 
+```
 World!
+```
 
 File `index.m.md`:
 
+```
 !INCLUDE "foo.m.md"
 !INCLUDE "bar.m.md"
+```
 
 Compiling `index.m.md` with the Include module will produce the following:
 
+```
 Hello
 World!
+```
 
 Furthermore, the Include module supports the shifting of headers in the
 file to be included. For example,
 
 File `foo.m.md`:
 
+```
     # Foo
     ## Bar
+```
 
 File `index.m.md`:
 
+```
     # Title
     ## Subtitle
     !INCLUDE "foo.m.md", 2
+```
 
 Compiling `index.m.md` with the Include module and using `2` as shift
 parameter will yield:
 
+```
     # Title
     ## Subtitle
     ### Foo
     #### Bar
+```
 
 ### IncludeURLs
 
@@ -132,21 +156,29 @@ ambiguity as to where the file would be located.
 
 Remote file `http://your.domain/foo.m.md`:
 
+```
     Hello
+```
 
 Remote file `http://your.domain/bar.m.md`:
 
+```
     Remote World!
+```
 
 Local file `index.m.md`:
 
+```
     !INCLUDEURL "http://your.domain/foo.m.md"
     !INCLUDEURL "http://your.domain/bar.m.md"
+```
 
 Compiling `index.m.md` with the IncludeURL module will produce the following:
 
+```
     Hello
     Remote World!
+```
 
 ### IncludeCode
 
@@ -155,25 +187,28 @@ around the included code.
 
 Local code file `hello.py`:
 
+```
     def main():
         print "Hello World"
 
 
     if __name__ == '__main__':
         main()
+```
 
 Local file `index.m.md`:
 
+```
     # My Code
 
     !INCLUDECODE "hello.py"
     Easy as that!
+```
 
 Compiling `index.m.md` with IncludeCode module wil produce the following:
-
+    ```
     # My Code
 
-    ```
     def main():
         print "Hello World"
 
@@ -189,13 +224,16 @@ three to six). Please note that line counting starts at one, not at zero.
 
 Local file `index.m.md`:
 
+```
     # My Code
 
     !INCLUDECODE "hello.py" (python), 1:2
     Easy as that!
+```
 
 Compiling `index.m.md` with IncludeCode module will produce the following:
 
+```
     # My Code
 
     ```python
@@ -203,6 +241,7 @@ Compiling `index.m.md` with IncludeCode module will produce the following:
         print "Hello World"
     ```
     Easy as that!
+```
 
 ### Table of Contents
 
@@ -248,6 +287,10 @@ Document to be included [in the list][Reference11]：
 !REF
 ```
 
+## 《特殊》符号
+
+foo
+
 ### LaTeX Rendering
 
 Lines and blocks of lines beginning and ending with $ are rendered as LaTeX,
@@ -255,11 +298,15 @@ using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
 
 For example,
 
+```
 $\displaystyle \int x^2 = \frac{x^3}{3} + C$
+```
 
 becomes
 
+```
 ![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
+```
 
 ### YouTube Embeds
 
@@ -269,16 +316,21 @@ roughly simulating the look of an embedded video player.
 
 For example,
 
+```
     !VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
+```
 
 becomes
 
+```
 !VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
+```
 
 ## Examples
 
 Example file.m.md:
 
+```
 # Document Title
 
 !TOC
@@ -292,9 +344,11 @@ Example file.m.md:
 !REF
 
 [github]: http://github.com "GitHub"
+```
 
 The preprocessor would generate the following Markdown-ready document file.md:
 
+```
 # Document Title
 
 1\. [Header 1](#header1)
@@ -316,6 +370,7 @@ The preprocessor would generate the following Markdown-ready document file.md:
 - [GitHub][github]
 
 [github]: http://github.com "GitHub"
+```
 
 ## Contribute
 

@@ -144,6 +144,20 @@ Bypass lines in the included file, add following line in the file.
 <!-- markup:markdown-end -->
 ```
 
+### SkipLine
+
+When you want to skip specific line, use this marker by the end of the line *or* in the begining.
+
+```
+<!-- markup:skip-line --> YOUR MESSAEG
+```
+
+E.g.
+
+```
+<!-- markup:skip-line --> some thing .
+```
+
 ### IncludeURLs
 
 Facilitates the inclusion of remote files, such as files kept in a subversion
@@ -394,7 +408,7 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 
 If you find any problems with MarkdownPP, or have any feature requests, please
 report them to [GitHub][repo], and I will respond when possible. Code
-contributions are _always_ welcome, and ideas for new modules, or additions to
+contributions are *always* welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
 
 ## References

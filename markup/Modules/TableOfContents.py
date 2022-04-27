@@ -21,63 +21,75 @@ fencedcodere = re.compile(r"^```[ \w]*$")
 linkre = re.compile(r"(\[(.*?)\][\(\[].*?[\)\]])")
 cn_digits = dict({
     "1": "一",
-    "2":"二",
-    "3":"三",
-    "4":"四",
-    "5":"五",
-    "6":"六",
-    "7":"七",
-    "8":"八",
-    "9":"九",
-    "10":"十",
-    "11":"十一",
-    "12":"十二",
-    "13":"十三",
-    "14":"十四",
-    "15":"十五",
-    "16":"十六",
-    "17":"十七",
-    "18":"十八",
-    "19":"十九",
-    "20":"二十",
-    "21":"二十一",
-    "22":"二十二",
-    "23":"二十三",
-    "24":"二十四",
-    "25":"二十五",
-    "26":"二十六",
-    "27":"二十七",
-    "28":"二十八",
-    "29":"二十九",
-    "30":"三十",
-    "31":"三十一",
-    "32":"三十二",
-    "33":"三十三",
-    "34":"三十四",
-    "35":"三十五",
-    "36":"三十六",
-    "37":"三十七",
-    "38":"三十八",
-    "39":"三十九",
-    "40":"四十",
-    "41":"四十一",
-    "42":"四十二",
-    "43":"四十三",
-    "44":"四十四",
-    "45":"四十五",
-    "46":"四十六",
-    "47":"四十七",
-    "48":"四十八",
-    "49":"四十九",
+    "2": "二",
+    "3": "三",
+    "4": "四",
+    "5": "五",
+    "6": "六",
+    "7": "七",
+    "8": "八",
+    "9": "九",
+    "10": "十",
+    "11": "十一",
+    "12": "十二",
+    "13": "十三",
+    "14": "十四",
+    "15": "十五",
+    "16": "十六",
+    "17": "十七",
+    "18": "十八",
+    "19": "十九",
+    "20": "二十",
+    "21": "二十一",
+    "22": "二十二",
+    "23": "二十三",
+    "24": "二十四",
+    "25": "二十五",
+    "26": "二十六",
+    "27": "二十七",
+    "28": "二十八",
+    "29": "二十九",
+    "30": "三十",
+    "31": "三十一",
+    "32": "三十二",
+    "33": "三十三",
+    "34": "三十四",
+    "35": "三十五",
+    "36": "三十六",
+    "37": "三十七",
+    "38": "三十八",
+    "39": "三十九",
+    "40": "四十",
+    "41": "四十一",
+    "42": "四十二",
+    "43": "四十三",
+    "44": "四十四",
+    "45": "四十五",
+    "46": "四十六",
+    "47": "四十七",
+    "48": "四十八",
+    "49": "四十九",
 })
 
 # figures
-matched_figure = lambda x: x.strip().startswith("![") and x.strip().endswith(")")
-matched_figure_caption = lambda x: x.strip()[x.strip().index("![") + 2:x.strip().index("]("):]
+
+
+def matched_figure(x): return x.strip().startswith(
+    "![") and x.strip().endswith(")")
+
+
+def matched_figure_caption(x): return x.strip(
+)[x.strip().index("![") + 2:x.strip().index("]("):]
 
 # tables
-matched_table = lambda x: x.strip().startswith("<!-- markup:table-caption") and x.strip().endswith("-->")
-matched_table_caption = lambda x: x.strip()[26:len(x.strip()) - 3:]
+
+
+def matched_table(x): return x.strip().startswith(
+    "<!-- markup:table-caption") and x.strip().endswith("-->")
+
+
+def matched_table_caption(x): return x.strip()[26:len(x.strip()) - 3:]
+
 
 class TableOfContents(Module):
     """
@@ -105,8 +117,9 @@ class TableOfContents(Module):
             title = title.replace(link[0], link[1])
         return title
 
-
     def fix_section_with_lang(self, section, lang):
+        # print("fix_section_with_lang: section", section, ", lang", lang)
+        ret = section
         if section.count(".") == 1 and lang == "cn":
             section = section.strip().replace(".", "").replace("\\", "").strip()
 
@@ -114,10 +127,10 @@ class TableOfContents(Module):
                 print("Key not found in cn_digits: %s" % section)
                 sys.exit(1)
 
-            return "第"+ cn_digits[section] + "章、"
-        else:
-            return section
-            
+            ret = "第" + cn_digits[section] + "章、"
+
+        # print("fix_section_with_lang: ret", ret)
+        return ret
 
     def resolve_figure_marker(self, lang):
         if lang == "cn":
@@ -134,7 +147,8 @@ class TableOfContents(Module):
     def resolve_chatper_index(self, linenum, transforms):
         figure_index_chapter = 0
         for x in transforms:
-            if x.oper != "swap": continue
+            if x.oper != "swap":
+                continue
             # print(x.linenum, x.oper, x.data)
             if x.linenum < linenum:
                 y = x.data.strip()
@@ -186,7 +200,7 @@ class TableOfContents(Module):
             # print("infencedcodecount", infencedcodecount, counted, line)
             infencedcodecount = infencedcodecount + counted
             # print("infencedcodecount", infencedcodecount)
-            if (infencedcodecount % 2) == 0 :
+            if (infencedcodecount % 2) == 0:
                 infencedcodeblock = False
             else:
                 infencedcodeblock = True
@@ -205,12 +219,12 @@ class TableOfContents(Module):
                     tocdepth = max(depth, tocdepth)
                 toclines.append(linenum)
 
-                print("[INFO] TOC is turn on, max tocdepth %d" %  tocdepth)
+                print("[INFO] TOC is turn on, max tocdepth %d" % tocdepth)
 
                 h1lang = match.group(2)
                 if h1lang is not None:
                     h1lang = h1lang.strip().lower()
-                    print("[INFO] TOC generate h1 in lang %s" %  h1lang)
+                    print("[INFO] TOC generate h1 in lang %s" % h1lang)
                     if h1lang in ["en", "cn"]:
                         toch1lang = h1lang
                     else:
@@ -243,12 +257,14 @@ class TableOfContents(Module):
             if matched_figure(line):
                 figure_cap = matched_figure_caption(line)
                 # print("figure_cap", figure_cap, depth, linenum)
-                figures[linenum] = ("", figure_cap) # set index as emtpy string, resolve later.
+                # set index as emtpy string, resolve later.
+                figures[linenum] = ("", figure_cap)
 
             # tables
             if matched_table(line):
                 table_cap = matched_table_caption(line)
-                tables[linenum] = ("", table_cap) # set index as emtpy string, resolve later.
+                # set index as emtpy string, resolve later.
+                tables[linenum] = ("", table_cap)
 
             lastline = line
             linenum += 1
@@ -343,9 +359,10 @@ class TableOfContents(Module):
             else:
                 figure_index_num = figure_index_num + 1
 
-            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" %  list(figures[linenum])[1], "![%s%s %s](" %  (self.resolve_figure_marker(toch1lang),
-                                                                                                                                         "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (figure_index_num - 1),
-                                                                                                                                         list(figures[linenum])[1]), 1)))
+            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" % list(figures[linenum])[1], "![%s%s %s](" % (self.resolve_figure_marker(toch1lang),
+                                                                                                                                      "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (
+                                                                                                                                          figure_index_num - 1),
+                                                                                                                                      list(figures[linenum])[1]), 1)))
 
         # create caption for tables
         table_index_num = 1
@@ -361,9 +378,11 @@ class TableOfContents(Module):
                 table_index_num = table_index_num + 1
 
             swap_content = (self.resolve_table_marker(toch1lang),
-                "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (table_index_num - 1),
-                list(tables[linenum])[1])
+                            "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (
+                                table_index_num - 1),
+                            list(tables[linenum])[1])
             # print("SWAP TABLE", swap_content)
-            transforms.append(Transform(linenum, "swap", "Table: %s%s %s\n" % swap_content))
+            transforms.append(
+                Transform(linenum, "swap", "Table: %s%s %s\n" % swap_content))
 
         return transforms
