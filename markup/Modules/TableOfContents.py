@@ -13,8 +13,11 @@ import sys
 from markup.Module import Module
 from markup.Transform import Transform
 
-# language code for headline 1: c(zh_CN); e(en_US)
-tocre = re.compile(r"^!TOC(\s+[1-6])?(\s+\w+)?\s*$")
+'''
+constants
+'''
+# language code for headline 1: cn(zh_CN); en(en_US)
+tocre = re.compile(r"^!TOC(\s+[1-6])?(\s+\w+)?(\s+\w+)?\s*$")
 atxre = re.compile(r"^(#+)\s*(.+)$")
 setextre = re.compile(r"^(=+|-+)\s*$")
 fencedcodere = re.compile(r"^```[ \w]*$")
@@ -70,8 +73,13 @@ cn_digits = dict({
     "48": "四十八",
     "49": "四十九",
 })
+TOC_MODE_SECTION_ONLY = "section_only"
+TOC_MODE_INDEX_N_SECTION = "top_and_section"
+TOC_DEFAULT_TOP_DEPTH = 6
 
-# figures
+'''
+figures
+'''
 
 
 def matched_figure(x): return x.strip().startswith(
@@ -80,6 +88,7 @@ def matched_figure(x): return x.strip().startswith(
 
 def matched_figure_caption(x): return x.strip(
 )[x.strip().index("![") + 2:x.strip().index("]("):]
+
 
 # tables
 
@@ -168,6 +177,7 @@ class TableOfContents(Module):
         tocdepth = 0
         tocdata = ""
         toch1lang = "en"
+        tocmode = TOC_MODE_INDEX_N_SECTION  # 是否生成文档头部的索引目录
 
         headers = {}
         figures = {}
@@ -197,7 +207,7 @@ class TableOfContents(Module):
 
             # Fenced code blocks (Github-flavored markdown)
             counted = line.count("```")
-            # print("infencedcodecount", infencedcodecount, counted, line)
+            # print("infencedcodecount", infencedcodecount, counted, striped)
             infencedcodecount = infencedcodecount + counted
             # print("infencedcodecount", infencedcodecount)
             if (infencedcodecount % 2) == 0:
@@ -206,6 +216,10 @@ class TableOfContents(Module):
                 infencedcodeblock = True
 
             if striped.startswith("```") or striped.startswith("<w:") or striped.startswith("</w:"):
+                linenum = linenum + 1
+                continue
+
+            if infencedcodeblock:
                 linenum = linenum + 1
                 continue
 
@@ -219,23 +233,31 @@ class TableOfContents(Module):
                     tocdepth = max(depth, tocdepth)
                 toclines.append(linenum)
 
-                print("[INFO] TOC is turn on, max tocdepth %d" % tocdepth)
-
                 h1lang = match.group(2)
                 if h1lang is not None:
                     h1lang = h1lang.strip().lower()
-                    print("[INFO] TOC generate h1 in lang %s" % h1lang)
                     if h1lang in ["en", "cn"]:
                         toch1lang = h1lang
                     else:
                         print("Unexpected lang code for toc, avaiable code: en, cn")
                         sys.exit(1)
 
-                # print("TOC langcode %s" % toch1lang)
+                mode = match.group(3)
+                if mode is not None:
+                    mode = mode.strip().lower()
+                    if mode in [TOC_MODE_SECTION_ONLY, TOC_MODE_INDEX_N_SECTION]:
+                        tocmode = mode
+                    else:
+                        print("Unexpected mode for toc, avaiable code: %s" % ([TOC_MODE_SECTION_ONLY,
+                                                                           TOC_MODE_INDEX_N_SECTION]))
+                        sys.exit(1)
+
+                print("[INFO] TOC is turn on, max tocdepth %d, H1 lang %s, mode %s" % (
+                    TOC_DEFAULT_TOP_DEPTH if tocdepth == 0 else tocdepth, toch1lang, tocmode))
 
             # hash headers
             match = atxre.search(line)
-            if match and not infencedcodeblock:
+            if match:
                 depth = len(match.group(1))
                 title = match.group(2).strip()
                 headers[linenum] = (depth, title)
@@ -245,10 +267,10 @@ class TableOfContents(Module):
 
             # underlined headers
             match = setextre.search(line)
-            if match and not infencedcodeblock and lastline.strip():
+            if match and lastline.strip():
                 depth = 1 if match.group(1)[0] == "=" else 2
                 title = lastline.strip()
-                headers[linenum-1] = (depth, title)
+                headers[linenum - 1] = (depth, title)
 
                 if tocfound:
                     lowestdepth = min(depth, lowestdepth)
@@ -274,7 +296,7 @@ class TableOfContents(Module):
             return []
 
         if tocdepth == 0:
-            tocdepth = 6
+            tocdepth = TOC_DEFAULT_TOP_DEPTH
 
         stack = []
         headernum = 0
@@ -335,15 +357,20 @@ class TableOfContents(Module):
 
             # each section header in Doc
             transforms.append(Transform(linenum, "swap",
-                              data[linenum].replace(title, self.fix_section_with_lang(section, toch1lang) + title)))
+                                        data[linenum].replace(title,
+                                                              self.fix_section_with_lang(section, toch1lang) + title)))
 
             # create shortcut link
-            transforms.append(Transform(linenum, "prepend",
-                              "<a name=\"%s\"></a>\n\n" % short))
+            if tocmode != TOC_MODE_SECTION_ONLY:
+                transforms.append(Transform(linenum, "prepend",
+                                            "<a name=\"%s\"></a>\n\n" % short))
 
         # create transforms for the !TOC markers
         for linenum in toclines:
-            transforms.append(Transform(linenum, "swap", tocdata))
+            if tocmode == TOC_MODE_SECTION_ONLY:
+                transforms.append(Transform(linenum, "drop"))
+            else:
+                transforms.append(Transform(linenum, "swap", tocdata))
 
         # for x in transforms:
         #     print("transform --> %s %s %s" % (x.linenum, x.oper, x.data))
@@ -359,10 +386,14 @@ class TableOfContents(Module):
             else:
                 figure_index_num = figure_index_num + 1
 
-            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" % list(figures[linenum])[1], "![%s%s %s](" % (self.resolve_figure_marker(toch1lang),
-                                                                                                                                      "%d.%d" % (figure_index_curr, figure_index_num) if figure_index_curr != 0 else "%d" % (
-                                                                                                                                          figure_index_num - 1),
-                                                                                                                                      list(figures[linenum])[1]), 1)))
+            transforms.append(Transform(linenum, "swap", data[linenum].replace("![%s](" % list(figures[linenum])[1],
+                                                                               "![%s%s %s](" % (
+                                                                                   self.resolve_figure_marker(
+                                                                                       toch1lang),
+                                                                                   "%d.%d" % (figure_index_curr,
+                                                                                              figure_index_num) if figure_index_curr != 0 else "%d" % (
+                                                                                           figure_index_num - 1),
+                                                                                   list(figures[linenum])[1]), 1)))
 
         # create caption for tables
         table_index_num = 1
@@ -379,7 +410,7 @@ class TableOfContents(Module):
 
             swap_content = (self.resolve_table_marker(toch1lang),
                             "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (
-                                table_index_num - 1),
+                                    table_index_num - 1),
                             list(tables[linenum])[1])
             # print("SWAP TABLE", swap_content)
             transforms.append(

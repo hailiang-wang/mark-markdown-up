@@ -13,7 +13,7 @@ on top of the excellent Markdown syntax defined by John Gruber. These additions
 are mainly focused on creating larger technical documents without needing to use
 something as heavy and syntactically complex as Docbook.
 
-MarkdownPP uses a set of selectable modules to apply a series of transforms to
+MarkdownPP uses a set of selectable modules to apply a series of transforms To
 the original document, with the end goal of generating a new Markdown document
 that contains sections or features that would be laborious to generate or
 maintain by hand.
@@ -27,9 +27,9 @@ and process that document when viewing the repository.
 
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
-!TOC 5 cn
+!TOC 5 cn section_only
 
-## Installation and Usage
+## Installation and Usage <!-- markup:skip-line -->
 
 ```
     pip install markup-markdown

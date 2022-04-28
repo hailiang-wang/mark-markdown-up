@@ -266,10 +266,11 @@ Markdown header, and the headings are numbered hierarchically based on the
 heading tag that Markdown would generate.
 
 ```
-!TOC DEPTH H1_LANG
+!TOC DEPTH H1_LANG MODE
 ```
 
 Where DEPTH is [1-6], H1_LANG is language for h1 header in TOC, [en|cn] , e.g. `!TOC 5 cn`.
+Available MODE are `section_only`,`top_and_section`. `top_and_section` would generate the index list on top of the file, `section_only` would omit the top index list.
 Image caption is generated as well with ToC prefix.
 
 ```
