@@ -126,6 +126,17 @@ class TableOfContents(Module):
             title = title.replace(link[0], link[1])
         return title
 
+    def fix_intent(self, section):
+        """
+        Fix intent
+        """
+        ret = ""
+        count = section.count(".") - 1
+        if count > 0:
+            ret = "&nbsp;&nbsp;&nbsp;&nbsp;" * count
+
+        return ret
+
     def fix_section_with_lang(self, section, lang):
         # print("fix_section_with_lang: section", section, ", lang", lang)
         ret = section
@@ -352,8 +363,8 @@ class TableOfContents(Module):
             title = TableOfContents.clean_html_string(title).strip()
 
             # top texts in doc as Toc
-            tocdata += ("%s [%s](#%s)  \n" %
-                        (self.fix_section_with_lang(section, toch1lang), TableOfContents.clean_title(title), short))
+            tocdata += ("%s%s [%s](#%s)  \n" %
+                        (self.fix_intent(section), self.fix_section_with_lang(section, toch1lang), TableOfContents.clean_title(title), short))
 
             # each section header in Doc
             transforms.append(Transform(linenum, "swap",
