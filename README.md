@@ -133,7 +133,7 @@ Bypass following lines in the included file, add following line in the file.
 
 ### SkipLine
 
-When you want to skip a specific line, use this marker by the end of the line *or* in the begining.
+When you want to skip a specific line, use this marker by the end of the line _or_ in the begining.
 
 ```
 YOUR MESSAEG <!-- markup:skip-line -->
@@ -333,6 +333,7 @@ becomes
 
 Example file.m.md:
 
+```
 # Document Title
 
 !TOC
@@ -347,8 +348,11 @@ Example file.m.md:
 
 [github]: http://github.com "GitHub"
 
+```
+
 The preprocessor would generate the following Markdown-ready document file.md:
 
+```
 # Document Title
 
 1\. [Header 1](#header1)
@@ -371,23 +375,13 @@ The preprocessor would generate the following Markdown-ready document file.md:
 
 [github]: http://github.com "GitHub"
 
-## Contribute
-
-### Install locally and watch
-
-Watch dirs.
-
-```
-python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 ```
 
-### Publish new version
+## Keyboard Shortcuts
 
-```
-./scripts/publish.sh
-```
+Use `mkc`, `img`, `lk`, etc as shortcuts to generate Markdown blocks.
 
-## Add Keyboard Shortcuts
+- Insert `mkc` then tab.
 
 ### Visual Studio Code
 
@@ -461,7 +455,23 @@ Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`,
 }
 ```
 
-## Konwn Issues
+## Contribute
+
+### Install locally and watch
+
+Watch dirs.
+
+```
+python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
+```
+
+### Publish new version
+
+```
+./scripts/publish.sh
+```
+
+## Known Issues
 
 - file encoding only support UTF-8
 - TOC not support punctuations
@@ -470,7 +480,7 @@ Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`,
 
 If you find any problems with MarkdownPP, or have any feature requests, please
 report them to [GitHub][repo], and I will respond when possible. Code
-contributions are *always* welcome, and ideas for new modules, or additions to
+contributions are _always_ welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
 
 Markup-Markdown is based on Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
