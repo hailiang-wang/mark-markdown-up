@@ -10,12 +10,12 @@ from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
 
-class SkipLine(Module):
+class BlankLine(Module):
     """
-    Module for skip lines
+    Add a blank line marker
     """
 
-    priority = 1.3
+    priority = 1.4
     
     def transform(self, data):
         transforms = []
@@ -23,8 +23,8 @@ class SkipLine(Module):
 
         for line in data:
             stripped = line.strip()
-            if stripped.startswith(Markers.markup_markdown_skipline) or stripped.endswith(Markers.markup_markdown_skipline):
-                transform = Transform(linenum, "drop")
+            if stripped == Markers.markup_markdown_blank:
+                transform = Transform(linenum, "swap", "\n")
                 transforms.append(transform)
             linenum = linenum + 1
 

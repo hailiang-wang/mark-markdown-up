@@ -117,31 +117,20 @@ parameter will yield:
 #### Bar
 ```
 
-### SkipBlocks
+### Markers
 
-Skip above lines in the included file, add following line in the file.
+| Module | Marker | Required | Description |
+| --- | --- | --- | --- |
+| Skip Blocks | `<!-- markup:markdown-begin -->` | No |  If present, skip above lines in the included file, add following line in the file. |
+| Skip Blocks | `<!-- markup:markdown-end -->` | No | If present, bypass following lines in the included file, add following line in the file. |
+| Skip Line | `<!-- markup:skip-line -->`  | No | When you want to skip a specific line, use this marker by the end of the line _or_ in the begining.|
+| Page Break of Office Word | `<!-- markup:page-break-xml -->` | No | Insert a page break for rendering Office Word. |
+| Blank Line | `<!-- markup:blank-line -->` | No | Resolve for a blank line purposely. |
 
-```
-<!-- markup:markdown-begin -->
-```
-
-Bypass following lines in the included file, add following line in the file.
-
-```
-<!-- markup:markdown-end -->
-```
-
-### SkipLine
-
-When you want to skip a specific line, use this marker by the end of the line _or_ in the begining.
+More examples -
 
 ```
 YOUR MESSAEG <!-- markup:skip-line -->
-```
-
-E.g.
-
-```
 some thing . <!-- markup:skip-line -->
 ```
 
@@ -374,7 +363,7 @@ Use `mkc`, `img`, `lk`, etc as shortcuts to generate Markdown blocks.
 
 Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`, next select `Markdown.json`, then paste below lines.
 
-```
+```json
 {
  "Table Caption for markup": {
   "prefix": "mkc",
@@ -431,6 +420,20 @@ Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`,
    "<!-- markup:skip-line -->"
   ],
   "description": "Bypass lines in the included file, add following line in the file."
+ },
+ "Insert a blank line": {
+  "prefix": "mkbl",
+  "body": [
+   "<!-- markup:blank-line -->"
+  ],
+  "description": "Insert a blank line."
+ },
+ "Insert a page break for Office Word": {
+  "prefix": "mkpb",
+  "body": [
+   "<!-- markup:page-break-xml -->"
+  ],
+  "description": "Insert a page break for Office Word."
  },
  "Insert Comment": {
   "prefix": "ic",

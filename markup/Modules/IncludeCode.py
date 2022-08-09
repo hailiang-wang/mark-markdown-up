@@ -27,7 +27,7 @@ class IncludeCode(Include):
                            r"\s*(?:,\s*(\d+|(\d*:\d*)))?\s*$")
 
     # include code should happen after includes, but before everything else
-    priority = 1.1
+    priority = 1.2
 
     def _select_lines(self, code_file, lines):
         # No lines given
