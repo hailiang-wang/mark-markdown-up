@@ -8,33 +8,30 @@ from __future__ import unicode_literals
 
 from markup.Module import Module
 from markup.Transform import Transform
+import markup.Markers as Markers
 
 
-class SkipLine(Module):
+class SkipBlocks(Module):
     """
     Module for skip lines
     """
 
     priority = 0
 
-    # skip file flag
-    markup_markdown_end = "<!-- markup:markdown-end -->"
-    markup_markdown_begin = "<!-- markup:markdown-begin -->"
-
     def transform(self, data):
         transforms = []
         linenum = 0
 
         for line in data:
-            striped = line.strip()
+            stripped = line.strip()
 
-            if stripped == self.markup_markdown_begin:
+            if stripped == Markers.markup_markdown_begin:
                 # Drop all previous transformed lines
                 for x in transforms:
                     x.oper = "drop"
                 transform = Transform(linenum, "drop")
                 transforms.append(transform)
-            elif stripped == self.markup_markdown_end:
+            elif stripped == Markers.markup_markdown_end:
                 for dropped in range(linenum, len(data)):
                     transform = Transform(linenum=dropped, oper="drop")
                     transforms.append(transform)

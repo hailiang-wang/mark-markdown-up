@@ -2,8 +2,6 @@
 
 Stack up markdown files with `!INCLUDE` directives.
 
-[![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
-
 ## Installation
 
 ```

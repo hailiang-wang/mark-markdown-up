@@ -14,7 +14,7 @@ from os import path
 
 from markup.Module import Module
 from markup.Transform import Transform
-
+import markup.Markers as Markers
 
 class Include(Module):
     """
@@ -36,8 +36,6 @@ class Include(Module):
     # includes should happen before anything else
     priority = 1
 
-
-
     def transform(self, data):
         transforms = []
         linenum = 0
@@ -56,14 +54,26 @@ class Include(Module):
     def include_file(self, filename, pwd="", shift=0):
         try:
             f = open(filename, "r", encoding='UTF-8')
-            data = f.readlines()
+            original = f.readlines()
             f.close()
+
+            inlcudebeginnum = 0
+            inlcudebeginsearch = 0
+            for line in original:
+                stripped = line.strip()
+                if stripped == Markers.markup_markdown_begin:
+                    inlcudebeginnum = inlcudebeginsearch + 1
+                    break
+                else:
+                    inlcudebeginsearch = inlcudebeginsearch + 1
+            
+            data = original[inlcudebeginnum:]
 
             # line by line, apply shift and recursively include file data
             linenum = 0
             includednum = 0
             for line in data:
-                if line.strip() == self.markup_markdown_end:
+                if line.strip() == Markers.markup_markdown_end:
                     return data[:linenum]
 
                 match = self.includere.search(line)
