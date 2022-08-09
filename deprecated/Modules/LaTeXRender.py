@@ -1,3 +1,26 @@
+
+
+# ### LaTeX Rendering
+
+# Lines and blocks of lines beginning and ending with $ are rendered as LaTeX,
+# using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
+
+# For example,
+
+# ```
+# $\displaystyle \int x^2 = \frac{x^3}{3} + C$
+# ```
+
+# becomes
+
+# ![\displaystyle \int x^2 = \frac{x^3}{3} + C](<html>
+
+# <head><title>405 Not Allowed</title></head>
+# <body bgcolor="white">
+# <center><h1>405 Not Allowed</h1></center>
+# </body>
+# </html> "\displaystyle \int x^2 = \frac{x^3}{3} + C")
+
 # -*- coding: utf-8 -*-
 # Copyright (C) 2012 Alex Nisnevich
 # Modifications copyright (C) 2022 Hai Liang W.

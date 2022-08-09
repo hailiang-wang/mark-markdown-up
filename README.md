@@ -30,7 +30,7 @@ By default, all available modules are enabled. You can specify a list of
 modules to exclude:
 
 ```
-markup foo.m.md -o foo.md -e latexrender,youtubembed
+markup foo.m.md -o foo.md -e youtubembed
 ```
 
 To watch directory and subdirectories:
@@ -298,21 +298,6 @@ FOO[^f1] Bar
 [^f1]: This is a footnote
 ```
 
-### LaTeX Rendering
-
-Lines and blocks of lines beginning and ending with $ are rendered as LaTeX,
-using [QuickLaTeX](http://www.holoborodko.com/pavel/quicklatex/).
-
-For example,
-
-```
-$\displaystyle \int x^2 = \frac{x^3}{3} + C$
-```
-
-becomes
-
-![\displaystyle \int x^2 = \frac{x^3}{3} + C](http://quicklatex.com/cache3/ea/ql_0f9331171ded7fa9ef38e57fccf74aea_l3.png "\\displaystyle \int x^2 = \frac{x^3}{3} + C")
-
 ### YouTube Embeds
 
 As GitHub-flavored Markdown does not allow embed tags, each line of the form
@@ -327,7 +312,9 @@ For example,
 
 becomes
 
-!VIDEO "http://www.youtube.com/embed/7aEYoP5-duY"
+```
+[![Link to Youtube video](images/youtube/7aEYoP5-duY.png)](http://www.youtube.com/watch?v=7aEYoP5-duY)
+```
 
 ## Examples
 
