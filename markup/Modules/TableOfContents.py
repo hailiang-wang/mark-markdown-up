@@ -326,6 +326,7 @@ class TableOfContents(Module):
                 continue
 
             (depth, title) = headers[linenum]
+            original_title = title
             depth += depthoffset
             short = re.sub(r"([\s,-,\(,\)]+)", "",
                            TableOfContents.clean_title(title)).lower()
@@ -361,15 +362,17 @@ class TableOfContents(Module):
 
             short = TableOfContents.clean_html_string(short)
             title = TableOfContents.clean_html_string(title).strip()
+            header_prefix = self.fix_section_with_lang(section, toch1lang)
 
             # top texts in doc as Toc
             tocdata += ("%s%s [%s](#%s)  \n" %
-                        (self.fix_intent(section), self.fix_section_with_lang(section, toch1lang), TableOfContents.clean_title(title), short))
+                        (self.fix_intent(section), header_prefix, TableOfContents.clean_title(title), short))
 
             # each section header in Doc
-            transforms.append(Transform(linenum, "swap",
-                                        data[linenum].replace(title,
-                                                              self.fix_section_with_lang(section, toch1lang) + title)))
+            replacement = header_prefix + title
+            # print("data[linenum]", data[linenum], " -replace["+original_title+"]->", replacement)
+            # print("post ", data[linenum].replace(original_title, replacement))
+            transforms.append(Transform(linenum, "swap", data[linenum].replace(original_title, replacement)))
 
             # create shortcut link
             if tocmode != TOC_MODE_SECTION_ONLY:
