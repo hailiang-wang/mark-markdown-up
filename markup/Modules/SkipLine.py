@@ -8,7 +8,7 @@ from __future__ import unicode_literals
 
 from markup.Module import Module
 from markup.Transform import Transform
-
+import markup.Markers as Markers
 
 class SkipLine(Module):
     """
@@ -16,15 +16,14 @@ class SkipLine(Module):
     """
 
     priority = 1.2
-    marker = "<!-- markup:skip-line -->"
-
+    
     def transform(self, data):
         transforms = []
         linenum = 0
 
         for line in data:
-            striped = line.strip()
-            if striped.startswith(self.marker) or striped.endswith(self.marker):
+            stripped = line.strip()
+            if stripped.startswith(Markers.markup_markdown_skipline) or stripped.endswith(Markers.markup_markdown_skipline):
                 transform = Transform(linenum, "drop")
                 transforms.append(transform)
             linenum = linenum + 1
