@@ -410,9 +410,7 @@ class TableOfContents(Module):
         table_index_num = 1
         table_index_pre = 0
         for linenum in tables.keys():
-            # print("fff linenum", linenum)
             table_index_curr = self.resolve_chatper_index(linenum, transforms)
-            # print("table_index_curr", table_index_curr, ", table_index_pre", table_index_pre)
             if table_index_curr != table_index_pre:
                 table_index_num = 1
                 table_index_pre = table_index_curr

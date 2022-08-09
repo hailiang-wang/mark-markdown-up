@@ -32,7 +32,7 @@ class IncludeURL(Include):
     includere = re.compile(r"^!INCLUDEURL\s+(?:\"([^\"]+)\"|'([^']+)')\s*$")
 
     # include urls should happen after includes, but before everything else
-    priority = 0.1
+    priority = 1.1
 
     def include(self, match):
         if match.group(1) is None:

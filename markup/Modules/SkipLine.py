@@ -15,6 +15,7 @@ class SkipLine(Module):
     Module for skip lines
     """
 
+    priority = 1.2
     marker = "<!-- markup:skip-line -->"
 
     def transform(self, data):

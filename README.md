@@ -2,30 +2,9 @@
 
 Stack up markdown files with `!INCLUDE` directives.
 
-Previous, Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
-
-**NOTICE: MarkdownPP is no longer actively maintained. MarkdownPP will not receive any future releases.**
-
-The Markup-Markdown is a Python module designed to add extended features
-on top of the excellent Markdown syntax defined by John Gruber. These additions
-are mainly focused on creating larger technical documents without needing to use
-something as heavy and syntactically complex as Docbook.
-
-MarkdownPP uses a set of selectable modules to apply a series of transforms to
-the original document, with the end goal of generating a new Markdown document
-that contains sections or features that would be laborious to generate or
-maintain by hand.
-
-Documents designed to be preprocessed by Markup-Markdown should try to follow the
-convention of naming files with a .m.md extension(m.md is Markup Markdown for short, ".md" as end so we can leverage Editor's highlight), so that Markup-Markdown can
-generate a document with the same name, but with the standard .md extension.
-As an example, this document in raw format is named "readme.m.md", and the
-generated document from Markup-Markdown is named "readme.md" so that GitHub can find
-and process that document when viewing the repository.
-
 [![Build Status](https://travis-ci.org/jreese/markdown-pp.svg?branch=master)](https://travis-ci.org/jreese/markdown-pp)
 
-## Installation and Usage
+## Installation
 
 ```
 pip install markup-markdown
@@ -36,6 +15,8 @@ To download the source code, navigate to [GitHub Repo](https://github.com/hailia
 There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
 `markup`.
+
+## Usage
 
 Assuming you have a file named `foo.m.md`, you can generate the preprocessed
 file `foo.md` by running the following command:
@@ -138,7 +119,15 @@ parameter will yield:
 #### Bar
 ```
 
-Bypass lines in the included file, add following line in the file.
+### SkipBlocks
+
+Skip above lines in the included file, add following line in the file.
+
+```
+<!-- markup:markdown-begin -->
+```
+
+Bypass following lines in the included file, add following line in the file.
 
 ```
 <!-- markup:markdown-end -->
@@ -146,16 +135,16 @@ Bypass lines in the included file, add following line in the file.
 
 ### SkipLine
 
-When you want to skip specific line, use this marker by the end of the line *or* in the begining.
+When you want to skip a specific line, use this marker by the end of the line *or* in the begining.
 
 ```
-<!-- markup:skip-line --> YOUR MESSAEG
+YOUR MESSAEG <!-- markup:skip-line -->
 ```
 
 E.g.
 
 ```
-<!-- markup:skip-line --> some thing .
+some thing . <!-- markup:skip-line -->
 ```
 
 ### IncludeURLs
@@ -280,8 +269,8 @@ Image caption is generated as well with ToC prefix.
 Table caption is generated with marker `<!-- markup:table-caption CAPTION -->` under the table.
 
 ```
-| foo | bar |
-| --- | --- |
+| foo    | bar    |
+| ------ | ------ |
 | table1 | tabtl2 |
 <!-- markup:table-caption xx foo s22 中文 -->
 ```
@@ -400,6 +389,80 @@ python setup.py sdist && pip install -U dist/markup-1.0.3.tar.gz && markup -w .
 ./scripts/publish.sh
 ```
 
+## Add Keyboard Shortcuts
+
+### Visual Studio Code
+
+Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`, next select `Markdown.json`, then paste below lines.
+
+```
+{
+ "Table Caption for markup": {
+  "prefix": "mkc",
+  "body": [
+   "<!-- markup:table-caption $1 -->"
+  ],
+  "description": "Generate table caption for markup-markdown"
+ },
+ "Insert image": {
+  "prefix": "img",
+  "body": [
+   "![$2]($1)"
+  ],
+  "description": "Generate image with caption"
+ },
+ "Insert link": {
+  "prefix": "lk",
+  "body": [
+   "[$2]($1)"
+  ],
+  "description": "Generate link"
+ },
+ "Insert reference": {
+  "prefix": "ref",
+  "body": [
+   "[$1]: <$2> \"$3\""
+  ],
+  "description": "Generate reference"
+ },
+ "Insert footnote": {
+  "prefix": "fn",
+  "body": [
+   "[^$2]: see Appendix《$1》，page XXX"
+  ],
+  "description": "Generate footnote"
+ },
+"Markup include begins": {
+  "prefix": "mkb",
+  "body": [
+   "<!-- markup:markdown-begin -->"
+  ],
+  "description": "Skip above lines in the included file, add following lines in the file."
+ },
+ "Markup include ends": {
+  "prefix": "mke",
+  "body": [
+   "<!-- markup:markdown-end -->"
+  ],
+  "description": "Bypass lines in the included file."
+ },
+ "Skip current line": {
+  "prefix": "mks",
+  "body": [
+   "<!-- markup:skip-line -->"
+  ],
+  "description": "Bypass lines in the included file, add following line in the file."
+ },
+ "Insert Comment": {
+  "prefix": "ic",
+  "body": [
+   "<!-- $1 -->"
+  ],
+  "description": "Insert comment"
+ }
+}
+```
+
 ## Konwn Issues
 
 - file encoding only support UTF-8
@@ -411,6 +474,27 @@ If you find any problems with MarkdownPP, or have any feature requests, please
 report them to [GitHub][repo], and I will respond when possible. Code
 contributions are *always* welcome, and ideas for new modules, or additions to
 existing modules, are also appreciated.
+
+Markup-Markdown is based on Markdown Preprocessor ([MarkdownPP](https://github.com/jreese/markdown-pp)).
+
+**NOTICE: MarkdownPP is no longer actively maintained. MarkdownPP will not receive any future releases.**
+
+The Markup-Markdown is a Python module designed to add extended features
+on top of the excellent Markdown syntax defined by John Gruber. These additions
+are mainly focused on creating larger technical documents without needing to use
+something as heavy and syntactically complex as Docbook.
+
+MarkdownPP uses a set of selectable modules to apply a series of transforms to
+the original document, with the end goal of generating a new Markdown document
+that contains sections or features that would be laborious to generate or
+maintain by hand.
+
+Documents designed to be preprocessed by Markup-Markdown should try to follow the
+convention of naming files with a .m.md extension(m.md is Markup Markdown for short, ".md" as end so we can leverage Editor's highlight), so that Markup-Markdown can
+generate a document with the same name, but with the standard .md extension.
+As an example, this document in raw format is named "readme.m.md", and the
+generated document from Markup-Markdown is named "readme.md" so that GitHub can find
+and process that document when viewing the repository.
 
 ## References
 

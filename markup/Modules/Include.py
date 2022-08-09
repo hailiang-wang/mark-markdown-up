@@ -34,30 +34,21 @@ class Include(Module):
     formatre = re.compile(r"[^\\]?[_*`]")
 
     # includes should happen before anything else
-    priority = 0
+    priority = 1
 
-    # skip file flag
-    bypass_marker = "<!-- markup:markdown-end -->"
+
 
     def transform(self, data):
         transforms = []
-
         linenum = 0
+        
         for line in data:
-            if line.strip() == self.bypass_marker:
-                for dropped in range(linenum, len(data)):
-                    transform = Transform(linenum=dropped, oper="drop")
-                    transforms.append(transform)
-                return transforms
-
             match = self.includere.search(line)
             if match:
                 includedata = self.include(match)
-
                 transform = Transform(linenum=linenum, oper="swap",
                                       data=includedata)
                 transforms.append(transform)
-
             linenum += 1
 
         return transforms
@@ -72,7 +63,7 @@ class Include(Module):
             linenum = 0
             includednum = 0
             for line in data:
-                if line.strip() == self.bypass_marker:
+                if line.strip() == self.markup_markdown_end:
                     return data[:linenum]
 
                 match = self.includere.search(line)
