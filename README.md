@@ -365,83 +365,90 @@ Press `Ctrl + Shift + P` for Commands palette, select `Configure User Snippets`,
 
 ```json
 {
- "Table Caption for markup": {
-  "prefix": "mkc",
-  "body": [
-   "<!-- markup:table-caption $1 -->"
-  ],
-  "description": "Generate table caption for markup-markdown"
- },
- "Insert image": {
-  "prefix": "img",
-  "body": [
-   "![$2]($1)"
-  ],
-  "description": "Generate image with caption"
- },
- "Insert link": {
-  "prefix": "lk",
-  "body": [
-   "[$2]($1)"
-  ],
-  "description": "Generate link"
- },
- "Insert reference": {
-  "prefix": "ref",
-  "body": [
-   "[$1]: <$2> \"$3\""
-  ],
-  "description": "Generate reference"
- },
- "Insert footnote": {
-  "prefix": "fn",
-  "body": [
-   "[^$2]: see Appendix《$1》，page XXX"
-  ],
-  "description": "Generate footnote"
- },
-"Markup include begins": {
-  "prefix": "mkb",
-  "body": [
-   "<!-- markup:markdown-begin -->"
-  ],
-  "description": "Skip above lines in the included file, add following lines in the file."
- },
- "Markup include ends": {
-  "prefix": "mke",
-  "body": [
-   "<!-- markup:markdown-end -->"
-  ],
-  "description": "Bypass lines in the included file."
- },
- "Skip current line": {
-  "prefix": "mks",
-  "body": [
-   "<!-- markup:skip-line -->"
-  ],
-  "description": "Bypass lines in the included file, add following line in the file."
- },
- "Insert a blank line": {
-  "prefix": "mkbl",
-  "body": [
-   "<!-- markup:blank-line -->"
-  ],
-  "description": "Insert a blank line."
- },
- "Insert a page break for Office Word": {
-  "prefix": "mkpb",
-  "body": [
-   "<!-- markup:page-break-xml -->"
-  ],
-  "description": "Insert a page break for Office Word."
- },
- "Insert Comment": {
-  "prefix": "ic",
-  "body": [
-   "<!-- $1 -->"
-  ],
-  "description": "Insert comment"
- }
+    "Table Caption for markup": {
+        "prefix": "mkc",
+        "body": [
+            "<!-- markup:table-caption $1 -->"
+        ],
+        "description": "Generate table caption for markup-markdown"
+    },
+    "Insert image": {
+        "prefix": "img",
+        "body": [
+            "![$2]($1)"
+        ],
+        "description": "Generate image with caption"
+    },
+    "Insert link": {
+        "prefix": "lk",
+        "body": [
+            "[$2]($1)"
+        ],
+        "description": "Generate link"
+    },
+    "Insert reference": {
+        "prefix": "ref",
+        "body": [
+            "[^$2]: see Appendix $1，page XXX"
+        ],
+        "description": "Generate reference"
+    },
+    "Insert reference in Chinese": {
+        "prefix": "refc",
+        "body": [
+            "[^$1]: 见附录 《$2》，第 $3 页"
+        ],
+        "description": "Generate reference"
+    },
+    "Insert footnote": {
+        "prefix": "fn",
+        "body": [
+            "[^]"
+        ],
+        "description": "Generate footnote"
+    },
+    "Markup include begins": {
+        "prefix": "mkb",
+        "body": [
+            "<!-- markup:markdown-begin -->"
+        ],
+        "description": "Skip above lines in the included file, add following lines in the file."
+    },
+    "Markup include ends": {
+        "prefix": "mke",
+        "body": [
+            "<!-- markup:markdown-end -->"
+        ],
+        "description": "Bypass lines in the included file."
+    },
+    "Skip current line": {
+        "prefix": "mks",
+        "body": [
+            "<!-- markup:skip-line -->"
+        ],
+        "description": "Bypass lines in the included file, add following line in the file."
+    },
+    "Insert a blank line": {
+        "prefix": "mkbl",
+        "body": [
+            "<!-- markup:blank-line -->"
+        ],
+        "description": "Insert a blank line."
+    },
+    "Insert a page break for Office Word": {
+        "prefix": "mkpb",
+        "body": [
+            "<!-- markup:page-break-xml -->"
+        ],
+        "description": "Insert a page break for Office Word."
+    },
+    "Insert Comment": {
+        "prefix": "ic",
+        "body": [
+            "<!-- $1 -->"
+        ],
+        "description": "Insert comment"
+    }
 }
 ```
 
