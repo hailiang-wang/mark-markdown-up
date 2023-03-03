@@ -8,7 +8,9 @@ Stack up markdown files with `!INCLUDE` directives.
 pip install markup-markdown
 ```
 
-To download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown)
+Project on [pypi](https://pypi.org/project/markup-markdown/).
+
+Download the source code, navigate to [GitHub Repo](https://github.com/hailiang-wang/markup-markdown).
 
 There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
