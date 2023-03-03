@@ -52,6 +52,9 @@ class Processor:
 
         for module in self.modules:
             transforms = module.transform(self.data)
+            if transforms is None:
+                continue
+
             transforms.sort(key=lambda x: x.linenum, reverse=True)
 
             for transform in transforms:

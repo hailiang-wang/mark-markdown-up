@@ -126,6 +126,7 @@ parameter will yield:
 | Skip Line | `<!-- markup:skip-line -->`  | No | When you want to skip a specific line, use this marker by the end of the line _or_ in the begining.|
 | Page Break of Office Word | `<!-- markup:page-break-xml -->` | No | Insert a page break for rendering Office Word. |
 | Blank Line | `<!-- markup:blank-line -->` | No | Resolve for a blank line purposely. |
+| Skip Header Metadata | `---` |  No | if `---` present as 1st line, then lines are skipped until next `---` come into place  |
 
 More examples -
 
@@ -285,6 +286,20 @@ Document to be included [in the list][Reference11]：
 FOO[^f1] Bar
 
 [^f1]: This is a footnote
+```
+
+### Skip Header Metadata
+
+```
+---
+page-title: "Foo bar"
+url: https://readingoutpost.com/zettelkasten-6-steps/
+date: "2023-03-03 16:50:23"
+mindmap-plugin: basic
+tags: ["fooo"]
+---
+
+Above lines skipped.
 ```
 
 ### YouTube Embeds

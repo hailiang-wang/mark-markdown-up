@@ -15,7 +15,10 @@ from os import path
 from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
+from markup.Modules.SkipHeaderMetadata import SkipHeaderMetadata
 
+
+skip_header_metadata = SkipHeaderMetadata()
 
 class Include(Module):
     """
@@ -58,6 +61,19 @@ class Include(Module):
             original = f.readlines()
             f.close()
 
+            # fitler by excerpt
+            transforms = skip_header_metadata.transform(original)
+            if transforms is None:
+                pass
+            else:
+                transformed_data = []
+                for transform in transforms:
+                    if transform.oper == "noop":
+                        transformed_data.append(original[transform.linenum])
+                if len(transformed_data) > 0:
+                    original = transformed_data
+
+            # filter by skip block markers
             inlcudebeginnum = 0
             inlcudebeginsearch = 0
             for line in original:

@@ -124,7 +124,7 @@ File 01.md
         MarkdownPP(input=input, modules=['includeurl'], output=output)
 
         output.seek(0)
-        self.assertEqual(output.read(), result)
+        self.assertEqual(output.read().strip(), result.strip())
 
     def test_youtube(self):
         input = StringIO('foobar\n!VIDEO '

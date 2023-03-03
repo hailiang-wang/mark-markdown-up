@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='markup-markdown',
     description='Markup Markdown, Stack up markdown files with `!INCLUDE` directives.',
-    version='1.1.2',
+    version='1.2.0',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markup-markdown',
