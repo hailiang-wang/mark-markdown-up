@@ -120,7 +120,7 @@ def main():
                     print('Cannot exclude ', module, ' - no such module')
 
         # fix relative refs for INCLUDE issue
-        filedir =  os.path.dirname(args.FILENAME)
+        filedir = os.path.dirname(args.FILENAME)
         if filedir:
             os.chdir(filedir)
 

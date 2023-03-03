@@ -28,9 +28,9 @@ class Processor:
     transforms = {}
     modules = []
 
-    def __init__(self,encoding):
+    def __init__(self, encoding):
         self.encoding = encoding
-    
+
     def register(self, module):
         """
         This method registers an individual module to be called when processing
@@ -64,13 +64,13 @@ class Processor:
                     self.data[linenum:linenum] = transform.data
 
                 elif transform.oper == "append":
-                    self.data[linenum+1:linenum+1] = transform.data
+                    self.data[linenum + 1:linenum + 1] = transform.data
 
                 elif transform.oper == "swap":
-                    self.data[linenum:linenum+1] = transform.data
+                    self.data[linenum:linenum + 1] = transform.data
 
                 elif transform.oper == "drop":
-                    self.data[linenum:linenum+1] = []
+                    self.data[linenum:linenum + 1] = []
 
                 elif transform.oper == "noop":
                     pass

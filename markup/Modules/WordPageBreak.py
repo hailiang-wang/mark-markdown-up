@@ -10,7 +10,8 @@ from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
 
-office_word_pagebreak_xml= '''```{=openxml}\n <w:p> <w:r> <w:br w:type="page"/> </w:r> </w:p>\n ```\n'''
+office_word_pagebreak_xml = '''```{=openxml}\n <w:p> <w:r> <w:br w:type="page"/> </w:r> </w:p>\n ```\n'''
+
 
 class WordPageBreak(Module):
     """
@@ -19,7 +20,7 @@ class WordPageBreak(Module):
     """
 
     priority = 1.5
-    
+
     def transform(self, data):
         transforms = []
         linenum = 0

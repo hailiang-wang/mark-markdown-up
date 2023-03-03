@@ -16,6 +16,7 @@ from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
 
+
 class Include(Module):
     """
     Module for recursively including the contents of other files into the
@@ -39,7 +40,7 @@ class Include(Module):
     def transform(self, data):
         transforms = []
         linenum = 0
-        
+
         for line in data:
             match = self.includere.search(line)
             if match:
@@ -66,7 +67,7 @@ class Include(Module):
                     break
                 else:
                     inlcudebeginsearch = inlcudebeginsearch + 1
-            
+
             data = original[inlcudebeginnum:]
 
             # line by line, apply shift and recursively include file data
@@ -79,7 +80,7 @@ class Include(Module):
                 match = self.includere.search(line)
                 if match:
                     dirname = path.dirname(filename)
-                    data[linenum:linenum+1] = self.include(match, dirname)
+                    data[linenum:linenum + 1] = self.include(match, dirname)
                     includednum = linenum
                     # Update line so that we won't miss a shift if
                     # heading is on the 1st line.

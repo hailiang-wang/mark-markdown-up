@@ -143,7 +143,7 @@ class TableOfContents(Module):
         if section.count(".") == 1 and lang == "cn":
             section = section.strip().replace(".", "").replace("\\", "").strip()
 
-            if not section in cn_digits:
+            if section not in cn_digits:
                 print("Key not found in cn_digits: %s" % section)
                 sys.exit(1)
 
@@ -260,7 +260,7 @@ class TableOfContents(Module):
                         tocmode = mode
                     else:
                         print("Unexpected mode for toc, avaiable code: %s" % ([TOC_MODE_SECTION_ONLY,
-                                                                           TOC_MODE_INDEX_N_SECTION]))
+                                                                               TOC_MODE_INDEX_N_SECTION]))
                         sys.exit(1)
 
                 print("[INFO] TOC is turn on, max tocdepth %d, H1 lang %s, mode %s" % (
@@ -406,7 +406,7 @@ class TableOfContents(Module):
                                                                                        toch1lang),
                                                                                    "%d.%d" % (figure_index_curr,
                                                                                               figure_index_num) if figure_index_curr != 0 else "%d" % (
-                                                                                           figure_index_num - 1),
+                                                                                       figure_index_num - 1),
                                                                                    list(figures[linenum])[1]), 1)))
 
         # create caption for tables
@@ -422,8 +422,8 @@ class TableOfContents(Module):
 
             swap_content = (self.resolve_table_marker(toch1lang),
                             "%d.%d" % (table_index_curr, table_index_num) if table_index_curr != 0 else "%d" % (
-                                    table_index_num - 1),
-                            list(tables[linenum])[1])
+                table_index_num - 1),
+                list(tables[linenum])[1])
             # print("SWAP TABLE", swap_content)
             transforms.append(
                 Transform(linenum, "swap", "Table: %s%s %s\n" % swap_content))

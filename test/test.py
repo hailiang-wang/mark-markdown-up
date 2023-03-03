@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#===============================================================================
+# ===============================================================================
 #
 # Copyright (c) 2020 <> All Rights Reserved
 #
@@ -9,7 +9,7 @@
 # Author: Hai Liang Wang
 # Date: 2022-04-19:07:09:33
 #
-#===============================================================================
+# ===============================================================================
 
 """
 
@@ -22,7 +22,8 @@ __copyright__ = "Copyright (c) 2020 . All Rights Reserved"
 __author__ = "Hai Liang Wang"
 __date__ = "2022-04-19:07:09:33"
 
-import os, sys
+import os
+import sys
 curdir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(curdir, os.pardir))
 
@@ -30,7 +31,6 @@ if sys.version_info[0] < 3:
     raise RuntimeError("Must be using Python 3")
 else:
     unicode = str
-
 
 
 import unittest
@@ -210,7 +210,7 @@ File 01.md
 
     @unittest.expectedFailure
     def test_latexrender(self):
-        input = StringIO('$\displaystyle 1 + 1 = 2 $')
+        input = StringIO(r'$\displaystyle 1 + 1 = 2 $')
         result_re = (r'!\[\\displaystyle 1 \+ 1 = 2 \]'
                      r'\(http:\/\/quicklatex\.com\/.*\.png "'
                      r'\\displaystyle 1 \+ 1 = 2 "\)')
@@ -277,7 +277,7 @@ File 01.md
             source_file = os.path.join('datafiles', 'test_script.m.md')
             print("source_file", source_file)
             subprocess.call(['markup', source_file, '-o',
-                             temp_outfile.name], shell=True, cwd= curdir)
+                             temp_outfile.name], shell=True, cwd=curdir)
 
             tmp_file = os.path.join(curdir, os.pardir, "tmp", "test_script.txt")
             with open(tmp_file, "w") as out:
@@ -306,7 +306,6 @@ bar"""
         output.seek(0)
         self.assertEqual(output.read(), result)
 
-
     def test_toc_table_figure(self):
         # test the script without arguments
         with NamedTemporaryFile(delete=False) as temp_outfile:
@@ -314,7 +313,7 @@ bar"""
             source_file = os.path.join('datafiles', 'test_toc_table_figure.m.md')
             # print("source_file", source_file)
             subprocess.call(['markup', source_file, '-o',
-                             temp_outfile.name], shell=True, cwd= curdir)
+                             temp_outfile.name], shell=True, cwd=curdir)
 
             tmp_file = os.path.join(curdir, os.pardir, "tmp", "test_toc_table_figure.md")
             with open(tmp_file, "w", encoding="UTF-8") as out:
@@ -442,7 +441,6 @@ bar"""
 
         output.seek(0)
         self.assertEqual(output.read(), result)
-
 
 
 if __name__ == '__main__':

@@ -54,7 +54,7 @@ class IncludeURL(Include):
                 for line_num, line in enumerate(data):
                     match = self.includere.search(line)
                     if match:
-                        data[line_num:line_num+1] = self.include(match)
+                        data[line_num:line_num + 1] = self.include(match)
 
                     line_num += 1
 

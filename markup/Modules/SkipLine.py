@@ -10,13 +10,14 @@ from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
 
+
 class SkipLine(Module):
     """
     Module for skip lines
     """
 
     priority = 1.3
-    
+
     def transform(self, data):
         transforms = []
         linenum = 0

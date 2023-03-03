@@ -10,13 +10,14 @@ from markup.Module import Module
 from markup.Transform import Transform
 import markup.Markers as Markers
 
+
 class BlankLine(Module):
     """
     Add a blank line marker
     """
 
     priority = 1.4
-    
+
     def transform(self, data):
         transforms = []
         linenum = 0

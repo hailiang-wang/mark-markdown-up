@@ -109,7 +109,7 @@ class LaTeXRender(Module):
                             # Ending a LaTeX block
                             transforms.pop()  # undo last drop
                             transforms.append(Transform(linenum, "swap",
-                                              self.render(current_block)))
+                                                        self.render(current_block)))
                         else:
                             # Starting a LaTeX block
                             current_block = line
