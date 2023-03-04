@@ -275,12 +275,19 @@ class Include(Module):
         fileglob, heading_text, display_text = resolve_wiki_link(fileglob)
 
         result = []
+        fileglob_path = None
 
         if pwd != "":
-            fileglob = path.join(pwd, fileglob)
+            fileglob_path = path.join(pwd, fileglob)
+        else:
+            fileglob_path = fileglob
 
-        files = sorted(glob.glob(fileglob))
-        # print("files", files)
+        files = sorted(glob.glob(fileglob_path))
+
+        # One more attempt with ext
+        if len(files) == 0 and not fileglob_path.endswith(".md"):
+            fileglob_path = path.join(pwd, fileglob + ".md")
+            files = sorted(glob.glob(fileglob_path))
 
         if len(files) == 0:
             print("[WARN] INCLUDE find no file <<" + fileglob + ">>")
