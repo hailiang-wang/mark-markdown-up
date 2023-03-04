@@ -81,7 +81,7 @@ File `index.m.md`:
 
 ```
 !INCLUDE "foo.m.md"
-!INCLUDE "bar.m.md"
+!INCLUDE "[Bar](bar.m.md)"
 ```
 
 Compiling `index.m.md` with the Include module will produce the following:

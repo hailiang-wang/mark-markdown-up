@@ -20,6 +20,26 @@ from markup.Modules.SkipHeaderMetadata import SkipHeaderMetadata
 
 skip_header_metadata = SkipHeaderMetadata()
 
+
+def resolve_markdown_link(filepath: str):
+    """
+    if matched link is in markdown format, extract the real path
+    e.g. [describe](real path)
+    """
+    if filepath is None:
+        return None
+
+    if filepath.startswith("[") and filepath.endswith(")") \
+            and "](" in filepath:
+        total_len = len(filepath)
+        pos = filepath.find("](")
+        # print(total_len, pos)
+        # print(filepath[pos + 2:total_len - 1])
+        return filepath[pos + 2:total_len - 1]
+    else:
+        return filepath
+
+
 class Include(Module):
     """
     Module for recursively including the contents of other files into the
@@ -139,6 +159,8 @@ class Include(Module):
         fileglob = match.group(1) or match.group(2)
         # print("include fileglob", fileglob)
         shift = int(match.group(3) or 0)
+
+        fileglob = resolve_markdown_link(fileglob)
 
         result = []
 
