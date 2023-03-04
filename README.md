@@ -77,11 +77,19 @@ File `bar.m.md`:
 World!
 ```
 
+File `yoo.m.md`:
+
+```
+## World!
+## Who
+```
+
 File `index.m.md`:
 
 ```
 !INCLUDE "foo.m.md"
 !INCLUDE "[Bar](bar.m.md)"
+!INCLUDE "[[yoo.m.md#World!]]"
 ```
 
 Compiling `index.m.md` with the Include module will produce the following:
@@ -89,6 +97,7 @@ Compiling `index.m.md` with the Include module will produce the following:
 ```
 Hello
 World!
+## World!
 ```
 
 Furthermore, the Include module supports the shifting of headers in the

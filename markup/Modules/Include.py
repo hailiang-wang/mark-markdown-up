@@ -21,6 +21,66 @@ from markup.Modules.SkipHeaderMetadata import SkipHeaderMetadata
 skip_header_metadata = SkipHeaderMetadata()
 
 
+def filter_by_block_heading_text(original, block_heading_text):
+    """
+    Filter out data by blocking heading text
+    """
+    ret = []
+
+    total_len = len(original)
+    heading_level = None
+    heading_pos = None
+
+    for x in range(total_len):
+        ld = original[x].strip()
+        ld_len = len(ld)
+        if ld.startswith("#") and not ld.endswith("#"):
+            heading_level = []
+            for y in range(ld_len):
+                if ld.startswith("#"):
+                    heading_level.append("#")
+                    ld = ld[1:]
+                else:
+                    break
+
+            ld = ld.strip()
+            if ld == block_heading_text:
+                # pos and heading level found
+                heading_pos = x
+                break
+
+    if heading_pos is not None:
+        # print("[filter_by_block_heading_text] heading pos", heading_pos, ", heading level", len(heading_level))
+        # get the data
+        stop_symbol_data = []
+
+        stop_symbol_prefix = ""
+        for x in heading_level:
+            stop_symbol_prefix = stop_symbol_prefix + "#"
+            stop_symbol_data.append(stop_symbol_prefix + " ")
+
+        ret = [original[heading_pos]]
+        candidate = original[heading_pos + 1:]
+
+        for x in candidate:
+            # print("can ", x, "|", stop_symbol_prefix + "|")
+            is_break = False
+            for y in stop_symbol_data:
+                if x.startswith(y) and len(x) > len(y):
+                    is_break = True
+                    break
+
+            if is_break:
+                break
+            else:
+                ret.append(x)
+    else:
+        print("[ERROR] not found heading", block_heading_text)
+        raise RuntimeError("Error when processing block text by heading.")
+
+    return ret
+
+
 def resolve_markdown_link(filepath: str):
     """
     if matched link is in markdown format, extract the real path
@@ -38,6 +98,53 @@ def resolve_markdown_link(filepath: str):
         return filepath[pos + 2:total_len - 1]
     else:
         return filepath
+
+
+def resolve_wiki_link(filepath: str):
+    """
+    if matched link is in wiki format, extract the real path
+    e.g. [[real path#headers|describe]]
+    headers and describe are optional
+    """
+    if filepath is None:
+        return None, None, None
+
+    if filepath.startswith("[[") and filepath.endswith("]]"):
+        # print("[resolve_wiki_link] filepath", filepath)
+        total_len = len(filepath)
+        heading_pos = filepath.find("#")
+        display_text_pos = filepath.find("|")
+        real_filename = None
+        heading_text = None
+        display_text = None
+
+        if heading_pos > -1 and display_text_pos > -1 and heading_pos > display_text_pos:
+            print("Heading must before display text in wiklink for INCLUDE")
+            raise RuntimeError("Error when processing wikilink in INCLUDE" + filepath)
+
+        if heading_pos == -1 and display_text_pos == -1:
+            # no heading and no display text
+            real_filename = filepath[2:total_len - 2]
+        elif heading_pos > -1 and display_text_pos == -1:
+            # with heading, no display text
+            real_filename = filepath[2:heading_pos]
+            heading_text = filepath[heading_pos + 1: total_len - 2]
+        elif heading_pos > -1 and display_text_pos > -1:
+            # with heading and display text
+            real_filename = filepath[2: heading_pos]
+            heading_text = filepath[heading_pos + 1: display_text_pos]
+            display_text = filepath[display_text_pos + 1: total_len - 2]
+        else:
+            # no heading, with display text
+            real_filename = filepath[2: display_text_pos]
+            display_text = filepath[display_text_pos + 1: total_len - 2]
+
+        # print("[resolve_wiki_link]", real_filename, " | ", heading_text, " | ", display_text)
+
+        return real_filename, heading_text, display_text
+
+    else:
+        return filepath, None, None
 
 
 class Include(Module):
@@ -75,7 +182,7 @@ class Include(Module):
 
         return transforms
 
-    def include_file(self, filename, pwd="", shift=0):
+    def include_file(self, filename, pwd="", shift=0, block_heading_text=None, block_display_text=None):
         try:
             f = open(filename, "r", encoding='UTF-8')
             original = f.readlines()
@@ -92,6 +199,10 @@ class Include(Module):
                         transformed_data.append(original[transform.linenum])
                 if len(transformed_data) > 0:
                     original = transformed_data
+
+            # filter by block_heading_text
+            if block_heading_text is not None:
+                original = filter_by_block_heading_text(original, block_heading_text)
 
             # filter by skip block markers
             inlcudebeginnum = 0
@@ -161,6 +272,7 @@ class Include(Module):
         shift = int(match.group(3) or 0)
 
         fileglob = resolve_markdown_link(fileglob)
+        fileglob, heading_text, display_text = resolve_wiki_link(fileglob)
 
         result = []
 
@@ -169,9 +281,13 @@ class Include(Module):
 
         files = sorted(glob.glob(fileglob))
         # print("files", files)
+
+        if len(files) == 0:
+            print("[WARN] INCLUDE find no file <<" + fileglob + ">>")
+
         if len(files) > 0:
             for filename in files:
-                result += self.include_file(filename, pwd, shift)
+                result += self.include_file(filename, pwd, shift, heading_text, display_text)
         else:
             result.append("")
 
