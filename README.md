@@ -244,6 +244,17 @@ Compiling `index.m.md` with IncludeCode module will produce the following:
     ```
     Easy as that!
 
+### Include image
+
+Insert a image with links as HTML, Markdown, Wikilink.
+
+```
+<img src="xxx.png"/>
+![caption](xxx.png)
+![[xxx.png|caption]]
+```
+
+
 ### Table of Contents
 
 The biggest feature provided by MarkdownPP is the generation of a table of
