@@ -14,12 +14,16 @@ def get_markdown_image_link_from_wikilink(wikilink: str):
 
     image_src = body
     image_caption = ""
+    image_style = ""
 
     if "|" in body:
         image_src = body[0: body.find("|")]
         image_caption = body[body.rfind("|") + 1:]
+        if body.count("|") > 1:
+            # extract options
+            image_style = body[body.find("|") + 1: body.rfind("|")]
 
-    return "![%s](%s)\n" % (image_caption, image_src)
+    return "\n![%s](%s){ %s }\n" % (image_caption, image_src, image_style)
 
 
 class IncludeWikilinkImage(Module):

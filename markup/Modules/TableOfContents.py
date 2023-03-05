@@ -83,7 +83,7 @@ figures
 
 
 def matched_figure(x): return x.strip().startswith(
-    "![") and x.strip().endswith(")")
+    "![") and (x.strip().endswith(")") or x.strip().endswith("}"))
 
 
 def matched_figure_caption(x): return x.strip(
