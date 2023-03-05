@@ -2,8 +2,14 @@
 # Copyright (C) 2023 Hai Liang W.
 # Licensed under the MIT license
 
+import os
 from markup.Module import Module
 from markup.Transform import Transform
+
+# Get ENV
+ENVIRON = os.environ.copy()
+
+MARKUP_WIKILINK_IMAGE_DEFAULT_STYLE = ENVIRON.get("MARKUP_WIKILINK_IMAGE_DEFAULT_STYLE", "width=600px")
 
 
 def get_markdown_image_link_from_wikilink(wikilink: str):
@@ -14,7 +20,7 @@ def get_markdown_image_link_from_wikilink(wikilink: str):
 
     image_src = body
     image_caption = ""
-    image_style = ""
+    image_style = MARKUP_WIKILINK_IMAGE_DEFAULT_STYLE
 
     if "|" in body:
         image_src = body[0: body.find("|")]
