@@ -139,6 +139,7 @@ parameter will yield:
 | Page Break of Office Word | `<!-- markup:page-break-xml -->` | No | Insert a page break for rendering Office Word. |
 | Blank Line | `<!-- markup:blank-line -->` | No | Resolve for a blank line purposely. |
 | Skip Header Metadata | `---` |  No | if `---` present as 1st line, then lines are skipped until next `---` come into place  |
+| EnvVariableReplacements | %MBN_`xxx` | No | Replace variable in content by Env variable awareness, [more](https://github.com/hailiang-wang/markup-markdown/issues/7) |
 
 More examples -
 

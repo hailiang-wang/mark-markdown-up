@@ -38,7 +38,6 @@ class IncludeWikilinkImage(Module):
     `![[image.png|caption]]`.
     https://github.com/hailiang-wang/markup-markdown/issues/5
     """
-
     # include urls should happen after includes
     priority = 1.6
 
@@ -49,6 +48,8 @@ class IncludeWikilinkImage(Module):
         for line in data:
             stripped = line.strip()
             if stripped.startswith("![[") and stripped.endswith("]]"):
+                stripped = stripped.replace("丨", "|")
+                stripped = stripped.replace("｜", "|")
                 markdown_image_link = get_markdown_image_link_from_wikilink(stripped)
                 transform = Transform(linenum, "swap", markdown_image_link)
                 transforms.append(transform)
