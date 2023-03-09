@@ -62,6 +62,67 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
         self.process(event)
 
 
+def headings_up():
+    """
+    Change content headings by level up
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-a', '--append', help="Headings up level(s), positive integer. e.g. 1")
+    parser.add_argument('-i', '--input', help="Input Markdown file.")
+    parser.add_argument('-o', '--output', help="Output Markdown file.")
+
+    args = parser.parse_args()
+
+    if None in [args.append, args.input, args.output] or "" in [args.append, args.input, args.output]:
+        print("Invalid params.")
+        parser.print_help()
+        sys.exit(1)
+    elif int(args.append) <= 0:
+        print("Invalid append value.")
+        parser.print_help()
+        sys.exit(2)
+    elif not os.path.exists(args.input):
+        print("Input file not found.")
+        parser.print_help()
+        sys.exit(3)
+    else:
+        import markup.Headings as headings
+        args.append = int(args.append)
+        exitcode = headings.up(args)
+        sys.exit(exitcode)
+
+
+def headings_down():
+    """
+    Change content headings by level Down
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-a', '--append', help="Headings down level(s), positive integer. e.g. 1")
+    parser.add_argument('-i', '--input', help="Input Markdown file.")
+    parser.add_argument('-o', '--output', help="Output Markdown file.")
+
+    args = parser.parse_args()
+
+    if None in [args.append, args.input, args.output] or "" in [args.append, args.input, args.output]:
+        print("Invalid params.")
+        parser.print_help()
+        sys.exit(1)
+    elif int(args.append) <= 0:
+        print("Invalid append value.")
+        parser.print_help()
+        sys.exit(2)
+    elif not os.path.exists(args.input):
+        print("Input file not found.")
+        parser.print_help()
+        sys.exit(3)
+    else:
+        import markup.Headings as headings
+        args.append = int(args.append)
+        exitcode = headings.down(args)
+        sys.exit(exitcode)
+
+
+
 def main():
     # setup command line arguments
     parser = argparse.ArgumentParser(description='Stack up for Markdown'

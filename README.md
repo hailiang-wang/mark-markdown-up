@@ -18,6 +18,8 @@ Python script that acts as a simple command line interface to the module,
 
 ## Usage
 
+### `markup`
+
 Assuming you have a file named `foo.m.md`, you can generate the preprocessed
 file `foo.md` by running the following command:
 
@@ -55,6 +57,38 @@ To see usage instructions, including a list of enabled modules, supply the
 
 ```
 markup --help
+```
+
+### `headingsup`
+
+Modify all headings by promote level.
+
+```
+headingsup -a 1 -i input.md -o output.md
+```
+
+With above command, all `H1` headings are changed to `H2` headings.
+
+Get more hints.
+
+```
+headingsup -h
+```
+
+### `headingsdown`
+
+Modify all headings by apppend levels.
+
+```
+headingsdown -a 1 -i input.md -o output.md
+```
+
+With above command, all `H2` headings are changed to `H1` headings.
+
+Get more hints.
+
+```
+headingsdown -h
 ```
 
 ## Modules

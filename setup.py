@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='markup-markdown',
     description='Markup Markdown, Stack up markdown files with `!INCLUDE` directives.',
-    version='1.2.10',
+    version='1.3.0',
     author='John Reese, Hai Liang W.',
     author_email='hailiang.hl.wang@gmail.com',
     url='https://github.com/hailiang-wang/markup-markdown',
@@ -25,7 +25,9 @@ setup(
     packages=['markup', 'markup/Modules'],
     entry_points={
         'console_scripts': [
-            'markup = markup.main:main'
+            'markup = markup.main:main',
+            'headingsup = markup.main:headings_up',
+            'headingsdown = markup.main:headings_down'
         ],
     },
     install_requires=[
