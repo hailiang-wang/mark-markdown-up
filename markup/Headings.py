@@ -94,14 +94,18 @@ def is_codeblock_start(line: str, afters):
 def parse_heading(line):
     if line.startswith("#"):
         level = []
-        title = None
         for x in range(len(line)):
-            if line[x] == "#":
+            if line[x] == "#" and len(line) > (len(level) + 1) and line[len(level) + 1] in [" ", "#"]:
                 level.append(x)
             else:
-                title = line[x + 1:]
                 break
-        title = title.strip()
+
+        title = None
+
+        if len(level) == 0:
+            return False, None
+
+        title = line[len(level) + 1:].strip()
 
         if not title:
             return False, None
