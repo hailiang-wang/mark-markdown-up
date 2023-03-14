@@ -288,10 +288,15 @@ class TableOfContents(Module):
 
             # figures
             if matched_figure(line):
-                figure_cap = matched_figure_caption(line)
-                # print("figure_cap", figure_cap, depth, linenum)
-                # set index as emtpy string, resolve later.
-                figures[linenum] = ("", figure_cap)
+                try:
+                    figure_cap = matched_figure_caption(line)
+                    # print("figure_cap", figure_cap, depth, linenum)
+                    # set index as emtpy string, resolve later.
+                    figures[linenum] = ("", figure_cap)
+                except BaseException as e:
+                    print("[ERROR] line", line)
+                    print(str(e))
+                    raise e
 
             # tables
             if matched_table(line):
