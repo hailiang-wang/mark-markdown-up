@@ -16,7 +16,7 @@ There are two components to the project: a Python module, `markup`, and a
 Python script that acts as a simple command line interface to the module,
 `markup`.
 
-## Usage
+## Commands
 
 ### `markup`
 
@@ -90,6 +90,23 @@ Get more hints.
 ```
 headingsdown -h
 ```
+
+### `canvas`
+
+Convert Obsidian canvas file into markup markdown, details in issue [#9](https://github.com/hailiang-wang/markup-markdown/issues/9).
+
+```
+canvas -i INPUT.canvas -o OUTPUT.m.md [-r ROOT_CARD_TEXT]
+e.g.
+    canvas -i xxx.canvas -o xxx.m.md -r root
+```
+
+* `INPUT.canvas` is relative path against PWD(Current Working Dir)
+* `OUTPUT.m.md` is relative path against PWD(Current Working Dir)
+* `-r` is for text of ROOT of the generated file in input canvas, default `root`
+* `canvas` command must run inside an Obsidian vault, means at least one dir contains `.obsidian` for the parents of PWD
+
+More information, check out issue [#9](https://github.com/hailiang-wang/markup-markdown/issues/9).
 
 ## Modules
 

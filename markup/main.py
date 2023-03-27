@@ -62,6 +62,22 @@ class MarkdownPPFileEventHandler(PatternMatchingEventHandler):
         self.process(event)
 
 
+def canvas():
+    """
+    Process Obsidian Canvas
+    """
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-a', '--action', help="Action Type, `canvas2markup` tranform canvas file into markup markdown.", choices=["canvas2markup"], default="canvas2markup")
+    parser.add_argument('-i', '--input', help="Input file, relative path to $PWD, e.g. xx.canvas", required=True)
+    parser.add_argument('-o', '--output', help="Output file, relative path to $PWD, e.g. xx.m.md", required=True)
+    parser.add_argument('-r', '--root', help="Root node to generate markup markdown, Default `root`", default="root")
+
+    args = parser.parse_args()
+
+    from markup import ObCanvas as ob_canvas
+    ob_canvas.handle(args=args)
+
+
 def headings_up():
     """
     Change content headings by level up
@@ -122,7 +138,6 @@ def headings_down():
         sys.exit(exitcode)
 
 
-
 def main():
     # setup command line arguments
     parser = argparse.ArgumentParser(description='Stack up for Markdown'
@@ -140,8 +155,7 @@ def main():
     parser.add_argument('-o', '--output', help='Output file name. If no '
                         'output file is specified, writes output to stdout.')
     parser.add_argument('-e', '--exclude', help='List of modules to '
-                        'exclude, separated by commas. Available modules: '
-                        + ', '.join(markup.modules.keys()))
+                        'exclude, separated by commas. Available modules: ' + ', '.join(markup.modules.keys()))
     args = parser.parse_args()
 
     # If watch flag is on, watch dirs instead of processing individual file

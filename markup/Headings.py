@@ -29,8 +29,6 @@ else:
     unicode = str
 
 
-import argparse
-
 # Get ENV
 ENVIRON = os.environ.copy()
 CODEBLOCK_PREFIX = "```"
