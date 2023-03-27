@@ -12,9 +12,10 @@
 # ===============================================================================
 
 """
-Process Obsidian Canvas into Markup Markdown   
+Process Obsidian Canvas into Markup Markdown
+Help: https://github.com/hailiang-wang/markup-markdown/issues/9
 """
-__copyright__ = "Copyright (c) 2020 . All Rights Reserved"
+__copyright__ = "Copyright (c) 2023 . All Rights Reserved"
 __author__ = "Hai Liang Wang"
 __date__ = "2023-03-09:06:41:55"
 
@@ -233,11 +234,14 @@ page-title: "%s"
 url: %s
 ---
 
+<!-- CAUTION: THIS FILE IS GENERATED WITH `canvas` COMMAND AUTOMATICALLY -->
+<!--          JUST STAY WITH THE CANVAS!!! ANY CHANGES MADE IN THIS FILE DIRECTLY MAY LOSE.-->
 <!-- Help Guide of Markup Markdown, https://github.com/hailiang-wang/markup-markdown -->
-<!-- 封面 xxx.cover.doc -->
+<!-- Cover xxx.cover.doc -->
 
 <!-- generate toc and section in headers -->
 !TOC 5 %s section_only
+
 ''' % (
         default_date,
         default_tags,
