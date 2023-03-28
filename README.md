@@ -186,11 +186,11 @@ parameter will yield:
 | Skip Blocks | `<!-- markup:markdown-begin -->` | No |  If present, skip above lines in the included file, add following line in the file. |
 | Skip Blocks | `<!-- markup:markdown-end -->` | No | If present, bypass following lines in the included file, add following line in the file. |
 | Skip Line | `<!-- markup:skip-line -->`  | No | When you want to skip a specific line, use this marker by the end of the line _or_ in the begining.|
-| Skip Obsidian Comment | `%%` | No | Skip content with [Obsidian Comment Syntax](https://github.com/hailiang-wang/markup-markdown/issues/6) |
+| Skip Obsidian Comment | `%%`YOUR COMMENT`%%` | No | Skip content with [Obsidian Comment Syntax](https://github.com/hailiang-wang/markup-markdown/issues/6) |
 | Page Break of Office Word | `<!-- markup:page-break-xml -->` | No | Insert a page break for rendering Office Word. |
 | Blank Line | `<!-- markup:blank-line -->` | No | Resolve for a blank line purposely. |
 | Skip Header Metadata | `---` |  No | if `---` present as 1st line, then lines are skipped until next `---` come into place  |
-| EnvVariableReplacements | %MBN_`xxx` | No | Replace variable in content by Env variable awareness, [more](https://github.com/hailiang-wang/markup-markdown/issues/7) |
+| EnvVariableReplacements | %MBN_`xxx`% | No | Replace variable in content by Env variable awareness, [more](https://github.com/hailiang-wang/markup-markdown/issues/7) |
 
 More examples -
 

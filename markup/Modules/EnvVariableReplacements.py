@@ -61,13 +61,13 @@ def repl(previous):
 
     for k in VARIABLES.keys():
         v = VARIABLES[k]
-        r = "%s%s" % (REPL_PREFIX_SYMBOL, k)
+        r = "%s%s%s" % (REPL_PREFIX_SYMBOL, k, REPL_PREFIX_SYMBOL)
 
         # print(previous, v[len(v) - 1], is_zh(v[len(v) - 1]))
 
         # consider the space formatter of chinese, reduce the space
-        if "%s " % r in aft and is_zh(v[len(v) - 1]):
-            aft = aft.replace("%s " % r, v)
+        # if "%s " % r in aft and is_zh(v[len(v) - 1]):
+        #     aft = aft.replace("%s " % r, v)
 
         aft = aft.replace(r, v)
 
