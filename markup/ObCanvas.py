@@ -35,10 +35,10 @@ from datetime import datetime
 
 # Get ENV
 ENVIRON = os.environ.copy()
-EXCERPT_PAGE_TITLE = ENVIRON.get("EXCERPT_PAGE_TITLE", "")
-EXCERPT_URL = ENVIRON.get("EXCERPT_URL", "")
-EXCERPT_LANG = ENVIRON.get("EXCERPT_LANG", "cn")
-EXCERPT_TAGS = ENVIRON.get("EXCERPT_TAGS", "pipeline,index")
+EXCERPT_PAGE_TITLE = ENVIRON.get("EXCERPT_PAGE_TITLE", "").strip()
+EXCERPT_URL = ENVIRON.get("EXCERPT_URL", "").strip()
+EXCERPT_LANG = ENVIRON.get("EXCERPT_LANG", "cn").strip()
+EXCERPT_TAGS = ENVIRON.get("EXCERPT_TAGS", "pipeline,index").strip()
 
 
 def get_tags_from_env():
