@@ -183,17 +183,19 @@ def append_content_with_tree_branch(content: list, branch, vault_root_dir, outpu
     # print("[append_content_with_tree_branch] id %s, type %s" % (branch["id"], branch["type"]))
     atts = parse_edge_labels(branch["edge"])
 
-    if "ap_former_page_break" in atts and atts["ap_former_page_break"]:
+    if "ap_former_page_break_no" in atts:
+        pass
+    else:
         content.append("\n<!-- markup:page-break-xml -->\n")
 
     if branch["type"] == "text":
         content.append(branch["text"])
         content.append("\n")
 
-        if "ap_tail_page_break" in atts and atts["ap_tail_page_break"]:
+        if "ap_tail_page_break_no" in atts:
             content.append("\n<!-- markup:page-break-xml -->\n")
     elif branch["type"] == "file":
-        append_headings = atts["ap_heading_level"] if "ap_heading_level" in atts else None
+        append_headings = atts["ap_heading_level"] if "ap_heading_level" in atts else "1"
         file_path = branch["file"]
 
         file_abs_path = os.path.join(vault_root_dir, file_path)
@@ -206,7 +208,7 @@ def append_content_with_tree_branch(content: list, branch, vault_root_dir, outpu
 
         content.append("\n")
 
-        if "ap_tail_page_break" in atts and atts["ap_tail_page_break"]:
+        if "ap_tail_page_break_no" in atts:
             content.append("\n<!-- markup:page-break-xml -->\n")
 
     if "children" in branch and len(branch["children"]) > 0:
