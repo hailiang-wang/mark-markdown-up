@@ -208,7 +208,7 @@ def append_content_with_tree_branch(content: list, branch, vault_root_dir, outpu
 
         content.append("\n")
 
-        if "ap_tail_page_break_no" in atts:
+        if "ap_tail_page_break_no" not in atts:
             content.append("\n<!-- markup:page-break-xml -->\n")
 
     if "children" in branch and len(branch["children"]) > 0:
