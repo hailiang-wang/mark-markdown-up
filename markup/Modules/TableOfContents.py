@@ -76,6 +76,8 @@ cn_digits = dict({
 TOC_MODE_SECTION_ONLY = "section_only"
 TOC_MODE_INDEX_N_SECTION = "top_and_section"
 TOC_DEFAULT_TOP_DEPTH = 6
+REF_CHAPTERS = ["references", "参考文献"]
+
 
 '''
 figures
@@ -98,6 +100,9 @@ def matched_table(x): return x.strip().startswith(
 
 
 def matched_table_caption(x): return x.strip()[26:len(x.strip()) - 3:]
+
+
+def is_refs_chapter(x): return x.lower().strip() in REF_CHAPTERS
 
 
 class TableOfContents(Module):
@@ -367,7 +372,8 @@ class TableOfContents(Module):
 
             short = TableOfContents.clean_html_string(short)
             title = TableOfContents.clean_html_string(title).strip()
-            header_prefix = self.fix_section_with_lang(section, toch1lang)
+            is_refs_title = is_refs_chapter(title)
+            header_prefix = "" if is_refs_title else self.fix_section_with_lang(section, toch1lang)
 
             # top texts in doc as Toc
             tocdata += ("%s%s [%s](#%s)  \n" %
